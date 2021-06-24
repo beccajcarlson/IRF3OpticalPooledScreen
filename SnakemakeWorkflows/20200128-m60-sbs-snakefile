@@ -1,0 +1,158 @@
+import snakemake
+import ops.firesnake
+from ops.firesnake import Snake
+import ops.io
+from ops.io import read_stack, save_stack
+from glob import glob
+import numpy as np
+
+###
+###
+
+# if true, will run when the data is complete, doing what it can
+# snakemake.ignore_missing = True
+
+# rename plate folders
+# [os.rename(f,'M' + f.split('M')[1][:3]) for f in next(os.walk('.'))[1] if re.search(r'M4[0-2]{1}[A-B]{1}', f) != None]
+
+# rename SBS cycle subfolders
+# [os.rename(f, f.split('/')[0] + '/c' + f.split('-c')[1]) for f in glob('M*/*-c*') ]
+
+# rename nd2 files within SBS subfolders
+# [os.rename(f,f.split('_Seq')[0] + '.nd2') for f in glob('M*/c*/*.nd2') if re.search(r'Seq[0-9]{4}.nd2', f) != None]
+
+
+#### stitch wells
+
+WELLS = ['A1','A2','A3','B3']
+CYCLES = ['c' + str(r) for r in range(7)]
+CYCLES_postc0 = ['c' + str(r) for r in range(1,7)]
+SITES = [str(item).zfill(4) for item in range(308)]
+THRESHOLD_READS = 300
+
+
+rule all:
+    input:
+    # can request individual files here 
+        expand('process/10X_{well}_site-{site}.cells.csv', well = WELLS, site = SITES),
+        #expand('process/10X_{well}_site-{site}.phenotype.csv', well = WELLS, site = SITES)            
+
+
+rule split_c0:
+    input:
+        'input/c0/Well{well}_Point{well}_{site}_ChannelDAPI_5p,CY3_30p,A594_30p,CY5_30p,CY7_30p.nd2'
+    output:
+        'input/pheno/Well{well}_Point{well}_{site}.tif'
+    run:
+        Snake.slice_channels(output=output, data=input, to_keep = 2) # channels up to channel 1
+
+rule extract_phenotype_translocation:
+    priority: 2
+    input:
+        'input/pheno/Well{well}_Point{well}_{site}.tif',
+        'process/10X_{well}_site-{site}.nuclei.tif',
+        'process/10X_{well}_site-{site}.cells.tif'
+    output:
+        'process/10X_{well}_site-{site}.phenotype.csv'
+    run:
+        Snake.extract_phenotype_translocation(output=output,
+            data_phenotype=input[0], nuclei=input[1], cells=input[2], wildcards=wildcards) 
+
+rule align:
+    input:
+        expand('input/{cycle}/Well{{well}}_Point{{well}}_{{site}}_ChannelDAPI_5p,CY3_30p,A594_30p,CY5_30p,CY7_30p.nd2', cycle=CYCLES,
+            well = WELLS, site = SITES)
+    output:
+        'process/10X_{well}_site-{site}.aligned.tif'
+    run:
+        Snake.align_SBS_special_c0_dim(output=output, data=input)
+
+
+## SEGMENTATION
+rule segment_nuclei:
+    input:
+        'process/10X_{well}_site-{site}.aligned.tif'
+    output:
+        ('process/10X_{well}_site-{site}.nuclei.tif')
+    run:
+        Snake.segment_nuclei(output=output, data=input[0], 
+            threshold=1500, area_min=160/4, area_max=2000/4, radius=15) #
+
+rule segment_cells:
+    """segment_cells works best when fed data with the most cytoplasmic autofluorescence. SBS data is OK but
+    not the best if something else is available.
+    """
+    input:
+        'process/10X_{well}_site-{site}.aligned.tif',
+        'process/10X_{well}_site-{site}.nuclei.tif'
+    output:
+        ('process/10X_{well}_site-{site}.cells.tif')
+    run:
+        Snake.segment_cells(output=output, 
+            data=input[0], nuclei=input[1], threshold=3000, chstart = 1, chend = 4) #
+
+rule transform_LoG:
+    priority: -1
+    input:
+        'process/10X_{well}_site-{site}.aligned.tif'
+    output:
+        ('process/10X_{well}_site-{site}.log.tif')
+    run:
+        Snake.transform_log(output=output, data=input, skip_index=0) #
+
+rule compute_std:
+    input:
+        'process/10X_{well}_site-{site}.log.tif'
+    output:
+        ('process/10X_{well}_site-{site}.std.tif')
+    run:
+        Snake.compute_std(output=output, data=input[0], remove_index=0) #
+
+rule find_peaks:
+    priority: -1
+    input:
+        'process/10X_{well}_site-{site}.std.tif'
+    output:
+        ('process/10X_{well}_site-{site}.peaks.tif')
+    run:
+        Snake.find_peaks(output=output, data=input[0]) 
+
+rule max_filter:
+    """Dilates sequencing channels to compensate for single-pixel alignment error.
+    """
+    input:
+        'process/10X_{well}_site-{site}.log.tif'
+    output:
+        ('process/10X_{well}_site-{site}.maxed.tif')
+    run:
+        Snake.max_filter(output=output, data=input[0], width=3,
+            remove_index=0) 
+
+rule extract_bases:
+    priority: -1
+    input:
+        'process/10X_{well}_site-{site}.peaks.tif',
+        'process/10X_{well}_site-{site}.maxed.tif',
+        'process/10X_{well}_site-{site}.cells.tif'
+    output:
+        'process/10X_{well}_site-{site}.bases.csv'
+    run:
+        Snake.extract_bases(output=output, peaks=input[0], maxed=input[1], 
+            cells=input[2], threshold_peaks=THRESHOLD_READS, wildcards=dict(wildcards)) 
+
+rule call_reads:
+    input:
+        'process/10X_{well}_site-{site}.bases.csv'
+    output:
+        ('process/10X_{well}_site-{site}.reads.csv')
+    run:
+        Snake.call_reads(output=output, df_bases=input[0])
+
+rule call_cells:
+    input:
+        'process/10X_{well}_site-{site}.reads.csv'
+    output:
+        'process/10X_{well}_site-{site}.cells.csv'
+    run:
+        Snake.call_cells(output=output, df_reads=input[0])
+

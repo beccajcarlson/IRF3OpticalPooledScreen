@@ -1,0 +1,165 @@
+import sys
+#sys.path.append('F:/packages/OpticalPooledScreens/')
+
+import snakemake
+import ops.firesnake
+from ops.firesnake import Snake
+import ops.io
+from ops.io import read_stack as read
+import numpy as np
+import pandas as pd
+
+# CYCLES = ['c{cycle}-SBS-{cycle}'.format(cycle=c) for c in range(1, 9)]
+# CYCLE_PH = 'c0-Hoechst-mNeon'
+
+# THRESHOLD_READS = 150  # threshold for detecting reads
+# THRESHOLD_DAPI = 500  # threshold for segmenting nuclei
+# THRESHOLD_CELL = 3000  # threshold for segmenting cells
+# NUCLEUS_AREA = 40, 500
+
+THRESHOLD_HOECHST = 1000
+NUCLEUS_AREA_PH = 40, 600
+
+
+#WELLS, TILES = pd.read_csv('input/well_tile_list.csv')[['well', 'tile']].values.T
+# WELLS, TILES = WELLS[:1], TILES[:1]
+
+#WELLS_, SITES = pd.read_csv('input/well_site_list.csv')[['well', 'site']].values.T
+# WELLS_, SITES = WELLS_[:1], SITES[:1]
+# WELLS_ = ['A1']
+# SITES = ['158']
+WELL = ['A1','A2']#[r + str(c).zfill(2) for r in 'ABCDEFGH' for c in range(1,13)]
+SITES = [str(c).zfill(4) for c in range(308)]
+
+# .tif file metadata recognized by ImageJ
+DISPLAY_RANGES=((500, 20000), 
+                (100, 20000), 
+                (100, 20000), 
+                (100, 20000), 
+                (100, 20000))
+LUTS = ops.io.GRAY, ops.io.GREEN, ops.io.RED, ops.io.MAGENTA, ops.io.CYAN
+
+# WINDOW = 2
+# BASES = 'GTAC'
+basedir ="M60/livecell"
+       
+rule all:
+    input:
+    # can request individual files here 
+        #expand('/Users/rcarlson/Desktop/M54/input/WelLA2_site{site}.tif', 
+         #  site = range(SITES))
+        #expand('{basedir}/input/Well{well}_{site}.tif', basedir=basedir, well = WELL, site = (SITES)),
+        expand('{basedir}/livecellprocess/10X_{well}_Site-{site}.phenotype_live.csv', basedir=basedir, well = WELL, site = (SITES)),
+        expand('{basedir}/livecellprocess/10X_{well}_Site-{site}.live_endpoint.csv', basedir=basedir, well = WELL, site = (SITES))
+
+# rule save_postperm: 
+#     input:
+#         '{plate}/postperm/Well{well}_Channel{channel}.nd2'
+#     output:
+#         expand('livecellprocess/tiled/{{plate}}/postperm/Well{{well}}_Channel{{channel}}_site{site}.tif', site = range(SITES))
+#     priority:
+#         1
+#     run:
+#         Snake.nd2_to_tif(output=output, data=input[0])#, save_multi_output = True)
+        #'/Volumes/Seagate Backup Plus Drive/M54/20191219_202251_676__6W_livecell_DAPI_GFP_sepGFP_cube1/WellA1_ChannelDAPI_30p,GFP_loaner_10p_Seq0001.nd2'
+
+
+rule save_to_tif: 
+    input:
+        '{basedir}/Well{well}_Point{well}_{site}_ChannelDAPI_30p,GFP_loaner_10p.nd2.ms'
+    # wildcard_constraints:
+    output:
+        '{basedir}/input/Well{well}_{site}.tif'
+    run:
+        Snake.nd2_to_tif_noz(output=output, data=input[0], save_multi_output = False, start_site = 11, end_site = 22)
+ 
+rule subtract_background:
+    priority: -1
+    input:
+        '{basedir}/input/Well{well}_{site}.tif'
+    output:
+        ('{basedir}/livecellprocess/10X_{well}_Site-{site}.bsub.tif')
+
+    run:
+        Snake.rolling_ball_bsub(output=output,data=input[0],radius=20)
+    #shell:
+    #    '{fiji} {flags} {macro} file_in=\\"{input}\\",file_out=\\"{output}\\"'
+
+rule align_live:
+    input:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.bsub.tif'
+    output:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.aligned_live.tif'
+    run:
+        from ops.process import Align
+        #illumination = ops.io.read_stack('/Users/rcarlson/Desktop/M54/illumination.tif')
+        #illumination /= illumination.mean()
+
+        data = read(input[0])
+        data = data.reshape(-1, 2, data.shape[-2], data.shape[-1])
+        # nd2 garbage
+        if data[-1].sum() == 0:
+            data = data[:-1]
+        #data = (data / illumination[None, None]).astype(np.uint16)
+        aligned = Align.align_between_cycles(data, 0, upsample_factor=2, window=2)
+        ops.io.save_stack(output[0], aligned)
+
+rule segment_nuclei_live:
+    input:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.aligned_live.tif'
+    output:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_live.tif'
+    run:
+        hoechst = ops.io.read_stack(input[0])[:, 0]
+        Snake.segment_nuclei_stack(output=output, dapi=hoechst, 
+            threshold=THRESHOLD_HOECHST, area_min=NUCLEUS_AREA_PH[0], area_max=NUCLEUS_AREA_PH[1], compress=1)
+
+        
+rule track_nuclei:
+    input:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_live.tif'
+    output:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_tracked.tif'
+    run:
+        Snake.track_live_nuclei(output=output, nuclei=input[0], compress=1)
+
+
+# rule extract_live_endpoint:
+#     input:
+#         '{basedir}/livecellprocess/10X_{well}_Site-{site}.aligned_live.tif',
+#         '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_live.tif'
+#     output:
+#         'livecellprocess/10X_{well}_Site-{site}.live_endpoint.csv'
+#     run:
+#         last_d = ops.io.read_stack(input[0])[-1]
+#         last_n = ops.io.read_stack(input[1])[-1]
+#         Snake.extract_phenotype_minimal(output=output, data_phenotype=last_d, 
+#             nuclei=last_n, wildcards=wildcards)
+        
+        
+rule extract_phenotype_live:
+    input:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.aligned_live.tif',
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_tracked.tif'
+    output:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.phenotype_live.csv'
+    run:
+        Snake.extract_phenotype_translocation_live(output=output,
+            data=input[0], nuclei=input[1], wildcards=wildcards) 
+
+
+rule extract_live_endpoint:
+    input:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.aligned_live.tif',
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.nuclei_live.tif'
+    output:
+        '{basedir}/livecellprocess/10X_{well}_Site-{site}.live_endpoint.csv'
+    run:
+        last_d = ops.io.read_stack(input[0])[-1]
+        last_n = ops.io.read_stack(input[1])[-1]
+        Snake.extract_phenotype_minimal(output=output, data_phenotype=last_d, 
+            nuclei=last_n, wildcards=wildcards) 
+        
+       
+
+
