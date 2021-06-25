@@ -1,0 +1,213 @@
+
+import snakemake 
+import ops.firesnake2 
+from ops.firesnake2 import Snake 
+import ops.io 
+from ops.io import read_stack, save_stack 
+from glob import glob 
+import numpy as np
+
+###
+###
+
+
+WELLS = ['A1','A2','A3','B1','B2','B3']
+PLATES = ['M40A','M40B','M41A','M41B','M42A','M42B']
+CYCLES = ['preperm', 'postperm']
+CHANNELSpre = ['BFP_10p', 'CY5_10p']
+CHANNELSpost = ['DAPI_5p,GFP','CY3_10p','AF750_10p', 'A594_10p', 'CY3_10p']
+SITES = 1281
+
+rule all:
+    input:
+    # can request individual files here 
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif', site = range(SITES), plate = PLATES, well = WELLS, channel = CHANNELSpre),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.irf3.csv', channel= CHANNELSpost, site = range(SITES), plate = PLATES, well = WELLS, cycle = CYCLES)    
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.dapi.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.mda5.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.rig.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.sev.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.mito.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.pex.csv', site = range(SITES), plate = PLATES, well = WELLS),
+        expand('process/tiled/{plate}/pheno/Well{well}_site{site}.morph.csv', site = range(SITES), plate = PLATES, well = WELLS),
+
+
+rule save_preperm: 
+    input:
+        '{plate}/preperm/Well{well}_Channel{channel}.nd2'
+    output:
+        expand('process/tiled/{{plate}}/preperm/Well{{well}}_Channel{{channel}}_site{site}.tif', site = range(SITES))
+    priority:
+        1
+    run:
+        Snake.nd2_to_tif(output=output, data=input[0])
+
+rule save_postperm: 
+    input:
+        '{plate}/postperm/Well{well}_Channel{channel}.nd2'
+    output:
+        expand('process/tiled/{{plate}}/postperm/Well{{well}}_Channel{{channel}}_site{site}.tif', site = range(SITES))
+    priority:
+        1
+    run:
+        Snake.nd2_to_tif(output=output, data=input[0])
+
+rule align_indivall: 
+    input:
+        'process/tiled/{plate}/postperm/Well{well}_ChannelDAPI_5p,GFP_site{site}.tif',
+        'process/tiled/{plate}/postperm/Well{well}_ChannelCY3_10p_site{site}.tif',
+        'process/tiled/{plate}/postperm/Well{well}_ChannelA594_10p_site{site}.tif',
+        'process/tiled/{plate}/postperm/Well{well}_ChannelAF750_10p_site{site}.tif',
+        'process/tiled/{plate}/preperm/Well{well}_ChannelCY5_10p_site{site}.tif',
+        'process/tiled/{plate}/preperm/Well{well}_ChannelBFP_10p_site{site}.tif'
+    output:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.tif'
+
+    run:
+        Snake.align_by_channel_6ch(output=output, data_1=input[0], data_2=input[1], data_3=input[2], data_4=input[3],
+            data_5=input[4], data_6=input[5], upsample_factor=5, channel_index1=1)
+
+rule align_rigid:
+    priority: -1
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.tif'
+    output:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif'
+    run:
+        Snake.align_stack_rigidbody(output=output, data=input, window=1.2, upsample_factor=2, remove_c0_DAPI = True) # 
+
+## SEGMENTATION
+rule segment_nuclei:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif'
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif')
+    run:
+        Snake.segment_nuclei(output=output, data=input[0], 
+            threshold=3000, area_min=120, area_max=1500, radius=15) #
+
+rule segment_cells:
+    """segment_cells works best when fed data with the most cytoplasmic autofluorescence. SBS data is OK but
+    not the best if something else is available.
+    """
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif'
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif')
+    run:
+        Snake.segment_cells(output=output, 
+            data=input[0], nuclei=input[1], threshold=3000, channel = 5) #
+
+rule find_cytoplasm:
+    """segment_cells works best when fed data with the most cytoplasmic autofluorescence. SBS data is OK but
+    not the best if something else is available.
+    """
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif'
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif')
+    run:
+        Snake.find_cytoplasm(output=output, 
+            nuclei=input[0], cells=input[1])
+
+rule extract_pheno_0:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.dapi.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 0, corrchannel1 = 1, corrchannel2 = 2, corrchannel3 = 3, corrchannel4 = 4, 
+                    corrchannel5 = 5, corrchannel6 = 6)
+
+rule extract_pheno_1:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.mda5.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 1, corrchannel2 = 2, corrchannel3 = 3, corrchannel4 = 4, 
+                    corrchannel5 = 5, corrchannel6 = 6)
+
+rule extract_pheno_2:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.irf3.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 2, corrchannel3 = 3, corrchannel4 = 4, 
+                    corrchannel5 = 5, corrchannel6 = 6)
+
+rule extract_pheno_3:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.rig.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards),  data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 3, corrchannel4 = 4, 
+                    corrchannel5 = 5, corrchannel6 = 6)
+
+rule extract_pheno_4:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.sev.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 4, corrchannel5 = 5, corrchannel6 = 6)
+
+rule extract_pheno_5:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.mito.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 5, corrchannel6 = 6)
+
+rule extract_pheno_6:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'    
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.pex.csv')
+    run:
+        Snake.extract_phenotype_extended_channel(output=output, 
+           wildcards=dict(wildcards),  data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3], channel = 6)
+
+rule extract_pheno_morph:
+    input:
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.nuclei.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/pheno/Well{well}_site{site}.cytoplasm.tif'  
+    output:
+        ('process/tiled/{plate}/pheno/Well{well}_site{site}.morph.csv')
+    run:
+        Snake.extract_phenotype_extended_morphology(output=output, 
+            wildcards=dict(wildcards), data_phenotype=input[0], nuclei=input[1], cells=input[2], cytoplasm=input[3])

@@ -140,32 +140,11 @@ class Align:
                 offsets += [offset]
         return offsets
 
-    # @staticmethod
-    # def calculate_offsets_rigidbody(data_, upsample_factor):
-    #     from pystackreg import StackReg
-    #     sr = StackReg(StackReg.RIGID_BODY)
-
-    #     target = data_[0]
-    #     offsets = []
-    #     for i, src in enumerate(data_):
-    #         if i == 0:
-    #             offsets += [(0, 0)]
-
-    #         out_rot = sr.register_transform(src, target)
-    #         else:
-    #             offset, _, _ = skimage.feature.register_translation(
-    #                             src, target, upsample_factor=upsample_factor)
-    #             offsets += [offset]
-    #     return offsets
 
     @staticmethod
     def apply_offsets(data_, offsets):
         print(data_.shape[0])
-        # if sum(sum(np.abs(offsets))) > 100*data_.shape[0]:
-        #     print ('alignment failed')
-        #     return np.zeros(data_.shape)
 
-        #else:
         warped = []
         print(sum(sum(np.abs(offsets))))
         for frame, offset in zip(data_, offsets):
@@ -187,8 +166,7 @@ class Align:
         if registration_images is None:
             registration_images = images
         offsets = Align.register_images(registration_images)
-        # if verbose:
-        #     print(np.array(offsets))
+
         aligned = [ops.utils.offset(d, o) for d,o in zip(images, offsets)]
 
         if verbose:
@@ -203,7 +181,6 @@ class Align:
 
     @staticmethod
     def register_images(images, index=None, window=(500, 500), upsample=1., verbose=True): 
-        #window default (500,500), upsample 1.
         """Register image stacks to pixel accuracy.
         :param images: list of N-dim image arrays, height and width may differ
         :param index: image[index] should yield 2D array with which to perform alignment
@@ -275,10 +252,7 @@ class Align:
 def find_nuclei(dapi, threshold, radius=15, area_min=50, area_max=500,
                 score=lambda r: r.mean_intensity,
                 smooth=1.35):
-
-# find_nuclei(dapi, threshold, radius=150, area_min=50, area_max=500,
-#                 score=lambda r: r.mean_intensity,
-#                 smooth=20): 
+ 
     """
     """
     print(radius, area_min, area_max)

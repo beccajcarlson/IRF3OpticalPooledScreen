@@ -62,22 +62,6 @@ def grid_view(files, bounds, padding=40, with_mask=False):
     return ops.utils.pile(arr)
 
 
-# @ops.utils.memoize
-# def read_stack(filename, copy=True):
-#     """Read a .tif file into a numpy array, with optional memory mapping.
-#     """
-#     print(filename)
-#     print(imread(filename,multifile=False).shape)
-#     with warnings.catch_warnings():
-#         warnings.filterwarnings("ignore", message="not an ome-tiff master file")
-#         data = imread(filename, multifile=False)
-#     # preserve inner singleton dimensions
-#     while data.shape[0] == 1:
-#         data = np.squeeze(data, axis=(0,))
-
-#     if copy:
-#     	data = data.copy()
-#     return data
 
 @ops.utils.memoize(active=False)
 def read_stack(filename, copy=True):
@@ -110,13 +94,7 @@ def read_nd2_stack(filename, copy=True):
             print(len(images))
             print(images.bundle_axes)
             i = 0
-            # for fov in images:
-            #     print(i)
-            #     i += 1
-            #     print(fov.shape)
-            #     imlist.append(fov)
-            #     print(len(imlist))
-            # print(len(imlist))
+           
             data = np.array(images)
             print(data.shape)
 

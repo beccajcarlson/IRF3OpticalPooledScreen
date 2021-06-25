@@ -9,24 +9,9 @@ import numpy as np
 ###
 ###
 
-# if true, will run when the data is complete, doing what it can
-# snakemake.ignore_missing = True
 
-# rename plate folders
-# [os.rename(f,'M' + f.split('M')[1][:3]) for f in next(os.walk('.'))[1] if re.search(r'M4[0-2]{1}[A-B]{1}', f) != None]
-
-# rename SBS cycle subfolders
-# [os.rename(f, f.split('/')[0] + '/c' + f.split('-c')[1]) for f in glob('M*/*-c*') ]
-
-# rename nd2 files within SBS subfolders
-# [os.rename(f,f.split('_Seq')[0] + '.nd2') for f in glob('M*/c*/*.nd2') if re.search(r'Seq[0-9]{4}.nd2', f) != None]
-
-
-#### stitch wells
-
-WELLS = ['A1','A2','A3','B3']
+WELLS = ['A1','A2']
 CYCLES = ['c' + str(r) for r in range(7)]
-CYCLES_postc0 = ['c' + str(r) for r in range(1,7)]
 SITES = [str(item).zfill(4) for item in range(308)]
 THRESHOLD_READS = 300
 
@@ -35,7 +20,7 @@ rule all:
     input:
     # can request individual files here 
         expand('process/10X_{well}_site-{site}.cells.csv', well = WELLS, site = SITES),
-        #expand('process/10X_{well}_site-{site}.phenotype.csv', well = WELLS, site = SITES)            
+        expand('process/10X_{well}_site-{site}.phenotype.csv', well = WELLS, site = SITES)            
 
 
 rule split_c0:
@@ -44,7 +29,7 @@ rule split_c0:
     output:
         'input/pheno/Well{well}_Point{well}_{site}.tif'
     run:
-        Snake.slice_channels(output=output, data=input, to_keep = 2) # channels up to channel 1
+        Snake.slice_channels(output=output, data=input, to_keep = 2) #
 
 rule extract_phenotype_translocation:
     priority: 2

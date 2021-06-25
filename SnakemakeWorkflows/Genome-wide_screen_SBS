@@ -1,1 +1,168 @@
+import snakemake 
+import ops.firesnake 
+from ops.firesnake import Snake 
+import ops.io 
+from ops.io import read_stack, save_stack 
+from glob import glob 
+import numpy as np
 
+###
+###
+
+
+WELLS = ['A1','A2','A3','B1','B2','B3']
+PLATES = ['M40A','M40B','M41A','M41B','M42A','M42B']
+CYCLES = ['c' + str(r) for r in range(12)]
+CHANNELS = ['CY5_30p', 'CY7_30p', 'A594_30p', 'CY3_30p']
+SITES = 333
+
+THRESHOLD_READS = 300
+
+rule all:
+    input:
+    # can request individual files here 
+        expand('process/tiled/{plate}/Well{well}_site{site}.cell_coords.csv', channel = CHANNELS[0], site = range(SITES), plate = PLATES, well = WELLS, cycle = CYCLES),
+        expand('process/tiled/{plate}/Well{well}_site{site}.cellS.csv', channel = CHANNELS[0], site = range(SITES), plate = PLATES, well = WELLS, cycle = CYCLES)
+	
+rule save_to_tif: 
+   input:
+       '{plate}/{cycle}/Well{well}_Channel{channel}.nd2'
+   output:
+       expand('process/tiled/{{plate}}/{{cycle}}/Well{{well}}_Channel{{channel}}_site{site}.tif', site = range(SITES))
+   priority:
+       1
+   run:
+       Snake.nd2_to_tif(output=output, data=input[0])
+
+rule align_indivall: 
+   input:
+       'process/tiled/{plate}/{cycle}/Well{well}_ChannelCY3_30p_site{site}.tif',
+       'process/tiled/{plate}/{cycle}/Well{well}_ChannelA594_30p_site{site}.tif',
+       'process/tiled/{plate}/{cycle}/Well{well}_ChannelCY5_30p_site{site}.tif',
+       'process/tiled/{plate}/{cycle}/Well{well}_ChannelCY7_30p_site{site}.tif'
+    priority:
+       1   
+    output:
+       'process/tiled/{plate}/{cycle}/Well{well}_site{site}.tif'
+
+    run:
+       Snake.align_by_channel_4ch(output=output, data_1=input[0], data_2=input[1], data_3=input[2], data_4=input[3],
+           upsample_factor=5)
+
+rule align_indivc0:
+   input:
+       'process/tiled/{plate}/c0/Well{well}_ChannelCY3_30p_site{site}.tif',
+       'process/tiled/{plate}/c0/Well{well}_ChannelA594_30p_site{site}.tif',
+       'process/tiled/{plate}/c0/Well{well}_ChannelCY5_30p_site{site}.tif',
+       'process/tiled/{plate}/c0/Well{well}_ChannelCY7_30p_site{site}.tif',
+       'process/tiled/{plate}/c0/Well{well}_ChannelDAPI_5p_site{site}.tif'
+   output:
+       'process/tiled/{plate}/c0/Well{well}_site{site}.tif'
+   run:
+       Snake.align_by_channel_5ch(output=output, data_1=input[0], data_2=input[1], data_3=input[2], data_4=input[3], data_5=input[4],
+           upsample_factor=5) #
+
+### align sbs
+rule align_rigid:
+    priority: -1
+    input:
+        expand('process/tiled/{{plate}}/{cycle}/Well{{well}}_site{{site}}.tif', cycle = CYCLES)
+    output:
+        'process/tiled/{plate}/Well{well}_site{site}.aligned.tif'
+    run:
+        Snake.align_SBS_rigidbody(output=output, data=input, window=1, remove_c0_DAPI = True) # 
+
+## SEGMENTATION
+rule segment_nuclei:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.aligned.tif'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.nuclei.tif')
+    run:
+        Snake.segment_nuclei(output=output, data=input[0], 
+            threshold=1500, area_min=160/4, area_max=2000/4, radius=15) #
+
+rule segment_cells:
+    """segment_cells works best when fed data with the most cytoplasmic autofluorescence. SBS data is OK but
+    not the best if something else is available.
+    """
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.aligned.tif',
+        'process/tiled/{plate}/Well{well}_site{site}.nuclei.tif'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.cells.tif')
+    run:
+        Snake.segment_cells(output=output, 
+            data=input[0], nuclei=input[1], threshold=2000) #
+
+rule transform_LoG:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.aligned.tif'
+    output:
+        'process/tiled/{plate}/Well{well}_site{site}.log.tif'
+    run:
+        Snake.transform_log_bychannelcycle(output=output, data=input, skip_index=0) #
+
+rule compute_std:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.log.tif'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.std.tif')
+    run:
+        Snake.compute_std(output=output, data=input[0], remove_index=0) #
+
+rule find_peaks:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.std.tif'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.peaks.tif')
+    run:
+        Snake.find_peaks(output=output, data=input[0]) 
+
+rule max_filter:
+    """Dilates sequencing channels to compensate for single-pixel alignment error.
+    """
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.log.tif'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.maxed.tif')
+    run:
+        Snake.max_filter(output=output, data=input[0], width=5,
+            remove_index=0) 
+
+rule extract_bases:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.peaks.tif',
+        'process/tiled/{plate}/Well{well}_site{site}.maxed.tif',
+        'process/tiled/{plate}/Well{well}_site{site}.cells.tif'
+    output:
+        'process/tiled/{plate}/Well{well}_site{site}.bases.csv'
+    run:
+        Snake.extract_bases(output=output, peaks=input[0], maxed=input[1], 
+            cells=input[2], threshold_peaks=THRESHOLD_READS, wildcards=dict(wildcards)) 
+
+rule call_reads:
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.bases.csv'
+    output:
+        ('process/tiled/{plate}/Well{well}_site{site}.reads.csv')
+    run:
+        Snake.call_reads_mbc(output=output, df_bases=input[0])#, position_column = 'plate')#, ncycles=8)
+
+rule call_cells:
+    priority: 1
+    input:
+        'process/tiled/{plate}/Well{well}_site{site}.reads.csv'
+    output:
+        'process/tiled/{plate}/Well{well}_site{site}.cells.csv'
+    run:
+        Snake.call_cells(output=output, df_reads=input[0])
+
+rule call_min_pheno:
+     input:
+        'process/tiled/{plate}/Well{well}_site{site}.cells.tif',
+        'process/tiled/{plate}/Well{well}_site{site}.nuclei.tif'
+     output:
+        'process/tiled/{plate}/Well{well}_site{site}.cell_coords.csv'
+     run:
+        Snake.extract_phenotype_minimal(output=output, data_phenotype=input[0], nuclei=input[1], wildcards=dict(wildcards))

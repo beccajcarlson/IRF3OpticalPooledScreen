@@ -68,53 +68,7 @@ def _memoize(f, *args, **kwargs):
 
     return f.cache[key]
                
-# def memoize(active=True, copy_numpy=True):
-#     """The memoized function has attributes `cache`, `keys`, and `reset`. 
-    
-#     @memoize(active=False)
-#     def f(...):
-#         ...
-    
-#     f.keys['active'] = True  # activate memoization
-#     f.cache  # the cache itself
-#     f.reset()  # reset the cache
-#     """
-#     def inner(f):
-#         f_ = decorator.decorate(f, _memoize)
 
-#         keys = dict(active=active, copy_numpy=copy_numpy)
-#         f.keys = keys
-#         f_.keys = keys
-
-#         def reset():
-#             cache = {}
-#             f.cache = cache
-#             f_.cache = cache
-        
-#         reset()
-#         f_.reset = reset
-
-#         return f_
-#     return inner
-
-
-# def _memoize(f, *args, **kwargs):
-#     if not f.keys['active']:
-#         return f(*args, **kwargs)
-
-#     key = str(args) + str(kwargs)
-#     if key not in f.cache:
-#         f.cache[key] = f(*args, **kwargs)
-
-#     # copy numpy arrays unless disabled by copy_numpy=False
-#     if isinstance(f.cache[key], np.ndarray):
-#         if f.keys['copy_numpy']:
-#             return f.cache[key].copy()
-#         else:
-#             return f.cache[key]
-
-#     return f.cache[key]
-    
 
 # PANDAS
 def bin_join(xs, symbol):
