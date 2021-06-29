@@ -1,0 +1,41 @@
+import snakemake
+import ops.firesnake
+from ops.firesnake import Snake
+import ops.io
+from ops.io import read_stack, save_stack
+from glob import glob
+import numpy as np
+
+
+
+WELLS = [r + str(c).zfill(2) for r in 'ABCDEFGH' for c in range(1,13)] #
+PLATES = ['M105']
+SITES = [str(r).zfill(4) for r in range(9)]
+
+rule all:
+    input:
+    # can request individual files here 
+        expand('{plate}/process/Well{well}_site-{site}.pheno.csv', plate = PLATES, well = WELLS, site = SITES),
+
+
+
+## SEGMENTATION
+rule segment_nuclei:
+    input:
+        '{plate}/Well{well}_Point{well}_{site}_ChannelDAPI_10p,CY5_10p.nd2'
+    output:
+        ('{plate}/process/Well{well}_site-{site}.nuclei.tif')
+    run:
+        Snake.segment_nuclei(output=output, data=input[0], 
+            threshold=1500, area_min=160/4, area_max=2000/4, radius=15) #
+
+rule extract_pheno_0:
+    input:
+        '{plate}/Well{well}_Point{well}_{site}_ChannelDAPI_10p,CY5_10p.nd2',
+        '{plate}/process/Well{well}_site-{site}.nuclei.tif'
+    output:
+        ('{plate}/process/Well{well}_site-{site}.pheno.csv')
+    run:
+        Snake.extract_phenotype_translocation_nuclear(output=output, 
+            data_phenotype=input[0], nuclei=input[1], wildcards=dict(wildcards))
+
