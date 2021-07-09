@@ -1,0 +1,226 @@
+<svg class='notselectable' height='449' id='svg_network_image' width='976' style='vertical-align:top;' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+<style type='text/css'><![CDATA[
+.nwbubblecoloredcircle { opacity: 0.4; }
+.nwbubbletransparentdcircle { opacity: 0.1; }
+.nwnodecontainer:hover { cursor: pointer; }
+.nwnodecontainer:hover .nwbubblecoloredcircle { opacity: 0.2; }
+.nwnodecontainerselected .nwbubblecoloredcircle { fill: rgb(255,0,0) !important; }
+.nwnodecontainerwhiteout .nwbubblecoloredcircle { fill: rgb(255,255,255) !important; }
+text { font-family: Arial; font-size: 12px; }
+.nwlinkwrapper:hover { cursor: pointer; }
+]]></style>
+<g id='edges'>
+<g class='nwlinkwrapper' id='edge.4433462.4443349'>
+<line class='nw_edge' id='line.4433462.4443349.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='680' x2='564'  y1='402' y2='402' />
+<line class='nw_edge' id='line.4433462.4443349.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.372' stroke-width='2.232' x1='680.5' x2='564.5' y1='402.5' y2='402.5' /></g>
+<g class='nwlinkwrapper' id='edge.4433462.4446569'>
+<line class='nw_edge' id='line.4433462.4446569.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='680' x2='623'  y1='402' y2='303' />
+<line class='nw_edge' id='line.4433462.4446569.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.39266666666666666' stroke-width='2.356' x1='680.5' x2='623.5' y1='402.5' y2='303.5' /></g>
+<g class='nwlinkwrapper' id='edge.4436442.4446371'>
+<line class='nw_edge' id='line.4436442.4446371.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='458' x2='366'  y1='404' y2='404' />
+<line class='nw_edge' id='line.4436442.4446371.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.624' stroke-width='3.744' x1='458.5' x2='366.5' y1='404.5' y2='404.5' /></g>
+<g class='nwlinkwrapper' id='edge.4436442.4447165'>
+<line class='nw_edge' id='line.4436442.4447165.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='458' x2='413'  y1='404' y2='325' />
+<line class='nw_edge' id='line.4436442.4447165.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6266666666666667' stroke-width='3.76' x1='458.5' x2='413.5' y1='404.5' y2='325.5' /></g>
+<g class='nwlinkwrapper' id='edge.4440013.4451812'>
+<line class='nw_edge' id='line.4440013.4451812.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='517' x2='410'  y1='256' y2='231' />
+<line class='nw_edge' id='line.4440013.4451812.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.614' stroke-width='3.684' x1='517.5' x2='410.5' y1='256.5' y2='231.5' /></g>
+<g class='nwlinkwrapper' id='edge.4440013.4451012'>
+<line class='nw_edge' id='line.4440013.4451012.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='517' x2='511'  y1='256' y2='187' />
+<line class='nw_edge' id='line.4440013.4451012.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6366666666666667' stroke-width='3.82' x1='517.5' x2='511.5' y1='256.5' y2='187.5' /></g>
+<g class='nwlinkwrapper' id='edge.4440013.4448208'>
+<line class='nw_edge' id='line.4440013.4448208.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='517' x2='461'  y1='256' y2='279' />
+<line class='nw_edge' id='line.4440013.4448208.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.644' stroke-width='3.864' x1='517.5' x2='461.5' y1='256.5' y2='279.5' /></g>
+<g class='nwlinkwrapper' id='edge.4440013.4445284'>
+<line class='nw_edge' id='line.4440013.4445284.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='517' x2='449'  y1='256' y2='173' />
+<line class='nw_edge' id='line.4440013.4445284.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6613333333333333' stroke-width='3.968' x1='517.5' x2='449.5' y1='256.5' y2='173.5' /></g>
+<g class='nwlinkwrapper' id='edge.4443349.4446569'>
+<line class='nw_edge' id='line.4443349.4446569.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='564' x2='623'  y1='402' y2='303' />
+<line class='nw_edge' id='line.4443349.4446569.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.5213333333333333' stroke-width='3.128' x1='564.5' x2='623.5' y1='402.5' y2='303.5' /></g>
+<g class='nwlinkwrapper' id='edge.4445284.4446164'>
+<line class='nw_edge' id='line.4445284.4446164.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='449' x2='531'  y1='173' y2='94' />
+<line class='nw_edge' id='line.4445284.4446164.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.44' stroke-width='2.64' x1='449.5' x2='531.5' y1='173.5' y2='94.5' /></g>
+<g class='nwlinkwrapper' id='edge.4445284.4451812'>
+<line class='nw_edge' id='line.4445284.4451812.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='449' x2='410'  y1='173' y2='231' />
+<line class='nw_edge' id='line.4445284.4451812.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6446666666666667' stroke-width='3.868' x1='449.5' x2='410.5' y1='173.5' y2='231.5' /></g>
+<g class='nwlinkwrapper' id='edge.4445284.4451012'>
+<line class='nw_edge' id='line.4445284.4451012.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='449' x2='511'  y1='173' y2='187' />
+<line class='nw_edge' id='line.4445284.4451012.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.664' stroke-width='3.984' x1='449.5' x2='511.5' y1='173.5' y2='187.5' /></g>
+<g class='nwlinkwrapper' id='edge.4445284.4448208'>
+<line class='nw_edge' id='line.4445284.4448208.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='449' x2='461'  y1='173' y2='279' />
+<line class='nw_edge' id='line.4445284.4448208.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.666' stroke-width='3.996' x1='449.5' x2='461.5' y1='173.5' y2='279.5' /></g>
+<g class='nwlinkwrapper' id='edge.4446164.4451012'>
+<line class='nw_edge' id='line.4446164.4451012.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='531' x2='511'  y1='94' y2='187' />
+<line class='nw_edge' id='line.4446164.4451012.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6153333333333333' stroke-width='3.692' x1='531.5' x2='511.5' y1='94.5' y2='187.5' /></g>
+<g class='nwlinkwrapper' id='edge.4446371.4447165'>
+<line class='nw_edge' id='line.4446371.4447165.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='366' x2='413'  y1='404' y2='325' />
+<line class='nw_edge' id='line.4446371.4447165.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6033333333333334' stroke-width='3.62' x1='366.5' x2='413.5' y1='404.5' y2='325.5' /></g>
+<g class='nwlinkwrapper' id='edge.4447065.4451812'>
+<line class='nw_edge' id='line.4447065.4451812.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='289' x2='410'  y1='246' y2='231' />
+<line class='nw_edge' id='line.4447065.4451812.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.3973333333333333' stroke-width='2.384' x1='289.5' x2='410.5' y1='246.5' y2='231.5' /></g>
+<g class='nwlinkwrapper' id='edge.4448208.4451812'>
+<line class='nw_edge' id='line.4448208.4451812.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='461' x2='410'  y1='279' y2='231' />
+<line class='nw_edge' id='line.4448208.4451812.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6573333333333333' stroke-width='3.944' x1='461.5' x2='410.5' y1='279.5' y2='231.5' /></g>
+<g class='nwlinkwrapper' id='edge.4448208.4451012'>
+<line class='nw_edge' id='line.4448208.4451012.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='461' x2='511'  y1='279' y2='187' />
+<line class='nw_edge' id='line.4448208.4451012.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6626666666666666' stroke-width='3.976' x1='461.5' x2='511.5' y1='279.5' y2='187.5' /></g>
+<g class='nwlinkwrapper' id='edge.4451012.4451812'>
+<line class='nw_edge' id='line.4451012.4451812.0' stroke='rgb(200,200,200)' stroke-opacity='0' stroke-width='7' x1='511' x2='410'  y1='187' y2='231' />
+<line class='nw_edge' id='line.4451012.4451812.1'  stroke='rgb(31,41,74)'  stroke-opacity='0.6113333333333333' stroke-width='3.668' x1='511.5' x2='410.5' y1='187.5' y2='231.5' /></g>
+</g>
+<g id='nodes'>
+<defs>
+    <filter id='filter_shadow'>
+        <feGaussianBlur stdDeviation='1' />
+    </filter>
+</defs>
+<defs>
+    <filter height='200%' id='filter_bg_text' width='200%' x='-50%' y='-50%'>
+        <feGaussianBlur stdDeviation='1.8' />
+    </filter>
+</defs>
+<defs>
+    <linearGradient id='bubble_gradient1' x1='50%' x2='50%' y1='100%' y2='0%'>
+        <stop offset='0.2472' style='stop-color:#FAFAFA;' />
+        <stop offset='0.4517' style='stop-color:#A2A2A2;' />
+        <stop offset='0.6785' style='stop-color:#5E5E5E;' />
+        <stop offset='0.8975' style='stop-color:#3C3C3C;' />
+        <stop offset='1' style='stop-color:#383838;' />
+    </linearGradient>
+    <radialGradient cx='50%' cy='50%' id='bubble_gradient2' r='50%'>
+        <stop offset='0' style='stop-color:#FFFFFF;' />
+        <stop offset='0.3726' style='stop-color:#FDFDFD;' />
+        <stop offset='0.6026' style='stop-color:#EBEBEB;' />
+        <stop offset='0.7463' style='stop-color:#C4C4C4;' />
+        <stop offset='0.8581' style='stop-color:#888888;' />
+        <stop offset='0.9523' style='stop-color:#373737;' />
+        <stop offset='0.9926' style='stop-color:#090909;' />
+        <stop offset='1' style='stop-color:#000000;' />
+    </radialGradient>
+</defs>
+<defs>
+    <linearGradient id='brilliance_gradient' x1='50%' x2='50%' y1='0%' y2='100%'>
+        <stop offset='0' style='stop-color:#FFFFFF;stop-opacity:1;' />
+        <stop offset='0.1' style='stop-color:#FFFFFF;stop-opacity:0.99;' />
+        <stop offset='1' style='stop-color:#FFFFFF;stop-opacity:0;' />
+    </linearGradient>
+</defs>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='FZR1' data-x_pos='366' data-y_pos='404' id='node.4446371'>
+<ellipse cx='366' cy='413' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='366' cy='404' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='366' cy='404' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='366' cy='404' fill='rgb(0,142,178)' r='20' />
+<ellipse cx='366' cy='392' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='384' y='386'>FZR1</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='384' y='386'>FZR1</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='IRF2' data-x_pos='531' data-y_pos='94' id='node.4446164'>
+<ellipse cx='531' cy='103' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='531' cy='94' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='531' cy='94' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='531' cy='94' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='531' cy='82' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='549' y='76'>IRF2</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='549' y='76'>IRF2</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='IRF3' data-x_pos='511' data-y_pos='187' id='node.4451012'>
+<ellipse cx='511' cy='196' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='511' cy='187' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='511' cy='187' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='511' cy='187' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='511' cy='175' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='529' y='169'>IRF3</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='529' y='169'>IRF3</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='FBXW7' data-x_pos='458' data-y_pos='404' id='node.4436442'>
+<ellipse cx='458' cy='413' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='458' cy='404' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='458' cy='404' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='458' cy='404' fill='rgb(0,142,178)' r='20' />
+<ellipse cx='458' cy='392' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='476' y='386'>FBXW7</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='476' y='386'>FBXW7</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='CMAS' data-x_pos='680' data-y_pos='402' id='node.4433462'>
+<ellipse cx='680' cy='411' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='680' cy='402' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='680' cy='402' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='680' cy='402' fill='rgb(163,255,101)' r='20' />
+<ellipse cx='680' cy='390' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='698' y='384'>CMAS</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='698' y='384'>CMAS</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='IKBKG' data-x_pos='410' data-y_pos='231' id='node.4451812'>
+<ellipse cx='410' cy='240' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='410' cy='231' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='410' cy='231' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='410' cy='231' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='410' cy='219' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='428' y='213'>IKBKG</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='428' y='213'>IKBKG</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='SLC35A1' data-x_pos='564' data-y_pos='402' id='node.4443349'>
+<ellipse cx='564' cy='411' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='564' cy='402' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='564' cy='402' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='564' cy='402' fill='rgb(163,255,101)' r='20' />
+<ellipse cx='564' cy='390' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='582' y='384'>SLC35A1</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='582' y='384'>SLC35A1</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='NCOR2' data-x_pos='289' data-y_pos='246' id='node.4447065'>
+<ellipse cx='289' cy='255' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='289' cy='246' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='289' cy='246' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='289' cy='246' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='289' cy='234' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='307' y='228'>NCOR2</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='307' y='228'>NCOR2</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='MAVS' data-x_pos='461' data-y_pos='279' id='node.4448208'>
+<ellipse cx='461' cy='288' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='461' cy='279' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='461' cy='279' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='461' cy='279' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='461' cy='267' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='479' y='261'>MAVS</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='479' y='261'>MAVS</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='RNF135' data-x_pos='517' data-y_pos='256' id='node.4440013'>
+<ellipse cx='517' cy='265' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='517' cy='256' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='517' cy='256' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='517' cy='256' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='517' cy='244' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='535' y='238'>RNF135</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='535' y='238'>RNF135</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='GNE' data-x_pos='623' data-y_pos='303' id='node.4446569'>
+<ellipse cx='623' cy='312' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='623' cy='303' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='623' cy='303' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='623' cy='303' fill='rgb(163,255,101)' r='20' />
+<ellipse cx='623' cy='291' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='641' y='285'>GNE</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='641' y='285'>GNE</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='DDX58' data-x_pos='449' data-y_pos='173' id='node.4445284'>
+<ellipse cx='449' cy='182' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='449' cy='173' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='449' cy='173' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='449' cy='173' fill='rgb(255,0,0)' r='20' />
+<ellipse cx='449' cy='161' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='467' y='155'>DDX58</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='467' y='155'>DDX58</text>
+</g>
+<g class='nwnodecontainer' data-action_option='remove' data-exp_height='250' data-exp_width='324' data-radius='20' data-safe_div_label='FBXO11' data-x_pos='413' data-y_pos='325' id='node.4447165'>
+<ellipse cx='413' cy='334' fill='#000000' filter='url(#filter_shadow)' opacity='0.6' rx='19' ry='14' />
+<circle cx='413' cy='325' fill='url(#bubble_gradient1)' r='20' />
+<circle cx='413' cy='325' fill='url(#bubble_gradient2)' opacity='0.33' r='20' />
+<circle class='nwbubblecoloredcircle'  cx='413' cy='325' fill='rgb(0,142,178)' r='20' />
+<ellipse cx='413' cy='313' fill='url(#brilliance_gradient)' rx='11.5' ry='6' />
+<text fill='rgb(247,246,242)' filter='url(#filter_bg_text)' opacity='1.0' stroke='rgb(247,246,242)' stroke-width='5' text-anchor='start' x='431' y='307'>FBXO11</text>
+<text fill='rgb(0,0,0)' opacity='1.0' text-anchor='start' x='431' y='307'>FBXO11</text>
+</g>
+</g>
+</svg>
