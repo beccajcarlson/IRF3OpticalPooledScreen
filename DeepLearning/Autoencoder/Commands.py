@@ -1,0 +1,27 @@
+##### Run Learning ##### 
+nohup python run_train.py --max-value 16945 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 36576 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 23873 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 14054 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 62946 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 35087 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+nohup python run_train.py --max-value 50155 --datadir . --train-metafile /mountb/single_cell_flist/train_ch0_small.csv --val-metafile /mountb/single_cell_flist/val_ch0_small.csv --save-dir /mountb/autoencoder/ch0 --model-type AE46 --dataset-type 46 --latent-dims 2048 -dataset-type 46 > ch0.out 2>&1 &
+
+##### Extract Features ##### 
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch0_all.csv --save-dir /mountb/autoencoder/ch0 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch0/models/best.pth > ch0_extract.out 2>&1 &    
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch1_all.csv --save-dir /mountb/autoencoder/ch1 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch1/models/best.pth > ch1_extract.out 2>&1 &
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch2_all.csv --save-dir /mountb/autoencoder/ch2 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch2/models/best.pth > ch2_extract.out 2>&1 &
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch3_all.csv --save-dir /mountb/autoencoder/ch3 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch3/models/best.pth > ch3_extract.out 2>&1 &
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch4_all.csv --save-dir /mountb/autoencoder/ch4 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch4/models/best.pth > ch4_extract.out 2>&1 &
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch5_all.csv --save-dir /mountb/autoencoder/ch5 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch5/models/best.pth > ch5_extract.out 2>&1 &
+nohup python get_features.py --datadir . --metafile /mountb/single_cell_flist/ch6_all.csv --save-dir /mountb/autoencoder/ch6 --latent-dims 2048 --model-type AE46 --ae-features --pretrained-file /mountb/autoencoder/ch6/models/best.pth > ch6_extract.out 2>&1 &
+
+
+##### Sample Reconstructions ##### 
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch2_all.csv --save-dir /mountb/autoencoder/ch0 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch0/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch2_all.csv --save-dir /mountb/autoencoder/ch1 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch1/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch2_all.csv --save-dir /mountb/autoencoder/ch2 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch2/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch3_all.csv --save-dir /mountb/autoencoder/ch3 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch3/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch4_all.csv --save-dir /mountb/autoencoder/ch4 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch4/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch5_all.csv --save-dir /mountb/autoencoder/ch5 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch5/models/best.pth
+python generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch6_all.csv --save-dir /mountb/autoencoder/ch6 --latent-dims 2048 --ae-features  --pretrained-file /mountb/autoencoder/ch6/models/best.pth

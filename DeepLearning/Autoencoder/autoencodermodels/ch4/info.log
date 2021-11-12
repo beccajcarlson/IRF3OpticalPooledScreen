@@ -1,0 +1,804 @@
+run_train.py --max-value 62946 --datadir . --train-metafile /mountb/single_cell_flist/train_ch4_small.csv --val-metafile /mountb/single_cell_flist/val_ch4_small.csv --save-dir /mountb/autoencoder/ch4 --model-type AE46 --dataset-type 46 --latent-dims 2048
+Namespace(batch_size=128, datadir='.', dataset_type='46', debug_mode=False, latent_dims=2048, learning_rate=0.001, max_epochs=2000, max_value=62946, model_type='AE46', num_workers=8, optimizer='adam', save_dir='/mountb/autoencoder/ch4', save_freq=50, seed=42, train_metafile='/mountb/single_cell_flist/train_ch4_small.csv', val_metafile='/mountb/single_cell_flist/val_ch4_small.csv', weight_decay=1e-05)
+AE46(
+  (encoder): Sequential(
+    (0): Conv2d(1, 46, kernel_size=(2, 2), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv2d(46, 92, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (3): BatchNorm2d(92, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv2d(92, 184, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (6): BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv2d(184, 368, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv2d(368, 368, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+    (12): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (fc1): Linear(in_features=1472, out_features=2048, bias=True)
+  (decoder): Sequential(
+    (0): ConvTranspose2d(368, 368, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): LeakyReLU(negative_slope=0.2, inplace=True)
+    (3): ConvTranspose2d(368, 184, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): LeakyReLU(negative_slope=0.2, inplace=True)
+    (6): ConvTranspose2d(184, 92, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (7): BatchNorm2d(92, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): LeakyReLU(negative_slope=0.2, inplace=True)
+    (9): ConvTranspose2d(92, 46, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): BatchNorm2d(46, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (11): LeakyReLU(negative_slope=0.2, inplace=True)
+    (12): ConvTranspose2d(46, 1, kernel_size=(2, 2), stride=(2, 2), padding=(1, 1), bias=False)
+    (13): Sigmoid()
+  )
+  (d1): Linear(in_features=2048, out_features=1472, bias=True)
+  (mseloss): MSELoss()
+)
+Epoch 0:
+Training summary: {'train_recon_loss': 0.008652230553874474, 'train_loss': 0.008652230553874474}
+Evaluation summary: {'test_recon_loss': 0.0010443808634946657, 'test_loss': 0.0010443808634946657}
+Best loss: 0.0010443808634946657
+Epoch 1:
+Training summary: {'train_recon_loss': 0.0007942744754209562, 'train_loss': 0.0007942744754209562}
+Evaluation summary: {'test_recon_loss': 0.0006637358714366262, 'test_loss': 0.0006637358714366262}
+Best loss: 0.0006637358714366262
+Epoch 2:
+Training summary: {'train_recon_loss': 0.0005668285461706231, 'train_loss': 0.0005668285461706231}
+Evaluation summary: {'test_recon_loss': 0.0005557753094075834, 'test_loss': 0.0005557753094075834}
+Best loss: 0.0005557753094075834
+Epoch 3:
+Training summary: {'train_recon_loss': 0.000512203423272614, 'train_loss': 0.000512203423272614}
+Evaluation summary: {'test_recon_loss': 0.00046130349095575233, 'test_loss': 0.00046130349095575233}
+Best loss: 0.00046130349095575233
+Epoch 4:
+Training summary: {'train_recon_loss': 0.0004226924809269351, 'train_loss': 0.0004226924809269351}
+Evaluation summary: {'test_recon_loss': 0.00039066888443211803, 'test_loss': 0.00039066888443211803}
+Best loss: 0.00039066888443211803
+Epoch 5:
+Training summary: {'train_recon_loss': 0.0003735367331613525, 'train_loss': 0.0003735367331613525}
+Evaluation summary: {'test_recon_loss': 0.000326104575469889, 'test_loss': 0.000326104575469889}
+Best loss: 0.000326104575469889
+Epoch 6:
+Training summary: {'train_recon_loss': 0.0005313089537407954, 'train_loss': 0.0005313089537407954}
+Evaluation summary: {'test_recon_loss': 0.001783028260043254, 'test_loss': 0.001783028260043254}
+Best loss: 0.000326104575469889
+Epoch 7:
+Training summary: {'train_recon_loss': 0.0004226363094029088, 'train_loss': 0.0004226363094029088}
+Evaluation summary: {'test_recon_loss': 0.0003560876792682964, 'test_loss': 0.0003560876792682964}
+Best loss: 0.000326104575469889
+Epoch 8:
+Training summary: {'train_recon_loss': 0.0003274300359298521, 'train_loss': 0.0003274300359298521}
+Evaluation summary: {'test_recon_loss': 0.0002977729376248786, 'test_loss': 0.0002977729376248786}
+Best loss: 0.0002977729376248786
+Epoch 9:
+Training summary: {'train_recon_loss': 0.0003158828881892126, 'train_loss': 0.0003158828881892126}
+Evaluation summary: {'test_recon_loss': 0.0003248265366523232, 'test_loss': 0.0003248265366523232}
+Best loss: 0.0002977729376248786
+Epoch 10:
+Training summary: {'train_recon_loss': 0.00031009896551612606, 'train_loss': 0.00031009896551612606}
+Evaluation summary: {'test_recon_loss': 0.0002992401530445685, 'test_loss': 0.0002992401530445685}
+Best loss: 0.0002977729376248786
+Epoch 11:
+Training summary: {'train_recon_loss': 0.0005949735290279556, 'train_loss': 0.0005949735290279556}
+Evaluation summary: {'test_recon_loss': 0.0004597784867604169, 'test_loss': 0.0004597784867604169}
+Best loss: 0.0002977729376248786
+Epoch 12:
+Training summary: {'train_recon_loss': 0.0003552750441154826, 'train_loss': 0.0003552750441154826}
+Evaluation summary: {'test_recon_loss': 0.0002813228655964491, 'test_loss': 0.0002813228655964491}
+Best loss: 0.0002813228655964491
+Epoch 13:
+Training summary: {'train_recon_loss': 0.0003072129046341221, 'train_loss': 0.0003072129046341221}
+Evaluation summary: {'test_recon_loss': 0.00026252345179523975, 'test_loss': 0.00026252345179523975}
+Best loss: 0.00026252345179523975
+Epoch 14:
+Training summary: {'train_recon_loss': 0.0002990901971171289, 'train_loss': 0.0002990901971171289}
+Evaluation summary: {'test_recon_loss': 0.00032536003206675644, 'test_loss': 0.00032536003206675644}
+Best loss: 0.00026252345179523975
+Epoch 15:
+Training summary: {'train_recon_loss': 0.00029442873092322164, 'train_loss': 0.00029442873092322164}
+Evaluation summary: {'test_recon_loss': 0.00026658195946595124, 'test_loss': 0.00026658195946595124}
+Best loss: 0.00026252345179523975
+Epoch 16:
+Training summary: {'train_recon_loss': 0.0007021760996815733, 'train_loss': 0.0007021760996815733}
+Evaluation summary: {'test_recon_loss': 0.0010294355470225518, 'test_loss': 0.0010294355470225518}
+Best loss: 0.00026252345179523975
+Epoch 17:
+Training summary: {'train_recon_loss': 0.0005384187534218651, 'train_loss': 0.0005384187534218651}
+Evaluation summary: {'test_recon_loss': 0.0003278600253047717, 'test_loss': 0.0003278600253047717}
+Best loss: 0.00026252345179523975
+Epoch 18:
+Training summary: {'train_recon_loss': 0.00032136561763481086, 'train_loss': 0.00032136561763481086}
+Evaluation summary: {'test_recon_loss': 0.00031319968112197887, 'test_loss': 0.00031319968112197887}
+Best loss: 0.00026252345179523975
+Epoch 19:
+Training summary: {'train_recon_loss': 0.000295856513630915, 'train_loss': 0.000295856513630915}
+Evaluation summary: {'test_recon_loss': 0.00026353754513413455, 'test_loss': 0.00026353754513413455}
+Best loss: 0.00026252345179523975
+Epoch 20:
+Training summary: {'train_recon_loss': 0.0002835515475492141, 'train_loss': 0.0002835515475492141}
+Evaluation summary: {'test_recon_loss': 0.00026144249605728886, 'test_loss': 0.00026144249605728886}
+Best loss: 0.00026144249605728886
+Epoch 21:
+Training summary: {'train_recon_loss': 0.0002785539280770467, 'train_loss': 0.0002785539280770467}
+Evaluation summary: {'test_recon_loss': 0.0002700076252810651, 'test_loss': 0.0002700076252810651}
+Best loss: 0.00026144249605728886
+Epoch 22:
+Training summary: {'train_recon_loss': 0.0006419957557895925, 'train_loss': 0.0006419957557895925}
+Evaluation summary: {'test_recon_loss': 0.0008339919278666148, 'test_loss': 0.0008339919278666148}
+Best loss: 0.00026144249605728886
+Epoch 23:
+Training summary: {'train_recon_loss': 0.00041397835678513877, 'train_loss': 0.00041397835678513877}
+Evaluation summary: {'test_recon_loss': 0.00026644601827082094, 'test_loss': 0.00026644601827082094}
+Best loss: 0.00026144249605728886
+Epoch 24:
+Training summary: {'train_recon_loss': 0.0005234385235481906, 'train_loss': 0.0005234385235481906}
+Evaluation summary: {'test_recon_loss': 0.0003303129680471752, 'test_loss': 0.0003303129680471752}
+Best loss: 0.00026144249605728886
+Epoch 25:
+Training summary: {'train_recon_loss': 0.00029823344822314, 'train_loss': 0.00029823344822314}
+Evaluation summary: {'test_recon_loss': 0.00027435397695489764, 'test_loss': 0.00027435397695489764}
+Best loss: 0.00026144249605728886
+Epoch 26:
+Training summary: {'train_recon_loss': 0.00028696685752587864, 'train_loss': 0.00028696685752587864}
+Evaluation summary: {'test_recon_loss': 0.00026991309918488734, 'test_loss': 0.00026991309918488734}
+Best loss: 0.00026144249605728886
+Epoch 27:
+Training summary: {'train_recon_loss': 0.0002818746381096189, 'train_loss': 0.0002818746381096189}
+Evaluation summary: {'test_recon_loss': 0.0003649732181121113, 'test_loss': 0.0003649732181121113}
+Best loss: 0.00026144249605728886
+Epoch 28:
+Training summary: {'train_recon_loss': 0.0005991041975051856, 'train_loss': 0.0005991041975051856}
+Evaluation summary: {'test_recon_loss': 0.002105939250317502, 'test_loss': 0.002105939250317502}
+Best loss: 0.00026144249605728886
+Epoch 29:
+Training summary: {'train_recon_loss': 0.0007404203563389731, 'train_loss': 0.0007404203563389731}
+Evaluation summary: {'test_recon_loss': 0.00038363843475443927, 'test_loss': 0.00038363843475443927}
+Best loss: 0.00026144249605728886
+Epoch 30:
+Training summary: {'train_recon_loss': 0.0003345602152339682, 'train_loss': 0.0003345602152339682}
+Evaluation summary: {'test_recon_loss': 0.0003568573323882817, 'test_loss': 0.0003568573323882817}
+Best loss: 0.00026144249605728886
+Epoch 31:
+Training summary: {'train_recon_loss': 0.0002942525935128939, 'train_loss': 0.0002942525935128939}
+Evaluation summary: {'test_recon_loss': 0.00028804706524769325, 'test_loss': 0.00028804706524769325}
+Best loss: 0.00026144249605728886
+Epoch 32:
+Training summary: {'train_recon_loss': 0.00027275026382840567, 'train_loss': 0.00027275026382840567}
+Evaluation summary: {'test_recon_loss': 0.0004231357988434029, 'test_loss': 0.0004231357988434029}
+Best loss: 0.00026144249605728886
+Epoch 33:
+Training summary: {'train_recon_loss': 0.0005936965126720709, 'train_loss': 0.0005936965126720709}
+Evaluation summary: {'test_recon_loss': 0.0011584185166640284, 'test_loss': 0.0011584185166640284}
+Best loss: 0.00026144249605728886
+Epoch 34:
+Training summary: {'train_recon_loss': 0.0005304503978897287, 'train_loss': 0.0005304503978897287}
+Evaluation summary: {'test_recon_loss': 0.00036164670048165545, 'test_loss': 0.00036164670048165545}
+Best loss: 0.00026144249605728886
+Epoch 35:
+Training summary: {'train_recon_loss': 0.0003080057335205872, 'train_loss': 0.0003080057335205872}
+Evaluation summary: {'test_recon_loss': 0.00026230389247420427, 'test_loss': 0.00026230389247420427}
+Best loss: 0.00026144249605728886
+Epoch 36:
+Training summary: {'train_recon_loss': 0.0003089561097970971, 'train_loss': 0.0003089561097970971}
+Evaluation summary: {'test_recon_loss': 0.06651401037091811, 'test_loss': 0.06651401037091811}
+Best loss: 0.00026144249605728886
+Epoch 37:
+Training summary: {'train_recon_loss': 0.000466066996812534, 'train_loss': 0.000466066996812534}
+Evaluation summary: {'test_recon_loss': 0.0002551473843295863, 'test_loss': 0.0002551473843295863}
+Best loss: 0.0002551473843295863
+Epoch 38:
+Training summary: {'train_recon_loss': 0.0002792065541194949, 'train_loss': 0.0002792065541194949}
+Evaluation summary: {'test_recon_loss': 0.0002428690898575432, 'test_loss': 0.0002428690898575432}
+Best loss: 0.0002428690898575432
+Epoch 39:
+Training summary: {'train_recon_loss': 0.0002713739406523152, 'train_loss': 0.0002713739406523152}
+Evaluation summary: {'test_recon_loss': 0.0002641187012505864, 'test_loss': 0.0002641187012505864}
+Best loss: 0.0002428690898575432
+Epoch 40:
+Training summary: {'train_recon_loss': 0.00028480465284589013, 'train_loss': 0.00028480465284589013}
+Evaluation summary: {'test_recon_loss': 0.0402666127398859, 'test_loss': 0.0402666127398859}
+Best loss: 0.0002428690898575432
+Epoch 41:
+Training summary: {'train_recon_loss': 0.0006449381163090385, 'train_loss': 0.0006449381163090385}
+Evaluation summary: {'test_recon_loss': 0.00034842970641229767, 'test_loss': 0.00034842970641229767}
+Best loss: 0.0002428690898575432
+Epoch 42:
+Training summary: {'train_recon_loss': 0.0002986062945927205, 'train_loss': 0.0002986062945927205}
+Evaluation summary: {'test_recon_loss': 0.00026221772867538655, 'test_loss': 0.00026221772867538655}
+Best loss: 0.0002428690898575432
+Epoch 43:
+Training summary: {'train_recon_loss': 0.0003972383015073322, 'train_loss': 0.0003972383015073322}
+Evaluation summary: {'test_recon_loss': 0.002421133219245808, 'test_loss': 0.002421133219245808}
+Best loss: 0.0002428690898575432
+Epoch 44:
+Training summary: {'train_recon_loss': 0.0007270809534283899, 'train_loss': 0.0007270809534283899}
+Evaluation summary: {'test_recon_loss': 0.0006072373884641104, 'test_loss': 0.0006072373884641104}
+Best loss: 0.0002428690898575432
+Epoch 45:
+Training summary: {'train_recon_loss': 0.0003343123253634406, 'train_loss': 0.0003343123253634406}
+Evaluation summary: {'test_recon_loss': 0.00034907461691728326, 'test_loss': 0.00034907461691728326}
+Best loss: 0.0002428690898575432
+Epoch 46:
+Training summary: {'train_recon_loss': 0.00050137543894701, 'train_loss': 0.00050137543894701}
+Evaluation summary: {'test_recon_loss': 0.00038853530985733377, 'test_loss': 0.00038853530985733377}
+Best loss: 0.0002428690898575432
+Epoch 47:
+Training summary: {'train_recon_loss': 0.0003009349676295405, 'train_loss': 0.0003009349676295405}
+Evaluation summary: {'test_recon_loss': 0.00030678745869036156, 'test_loss': 0.00030678745869036156}
+Best loss: 0.0002428690898575432
+Epoch 48:
+Training summary: {'train_recon_loss': 0.0002802423628134729, 'train_loss': 0.0002802423628134729}
+Evaluation summary: {'test_recon_loss': 0.0003245375906479146, 'test_loss': 0.0003245375906479146}
+Best loss: 0.0002428690898575432
+Epoch 49:
+Training summary: {'train_recon_loss': 0.00026867127295582684, 'train_loss': 0.00026867127295582684}
+Evaluation summary: {'test_recon_loss': 0.00028181881511029564, 'test_loss': 0.00028181881511029564}
+Best loss: 0.0002428690898575432
+Epoch 50:
+Training summary: {'train_recon_loss': 0.0007222315716170934, 'train_loss': 0.0007222315716170934}
+Evaluation summary: {'test_recon_loss': 0.0005772885711747689, 'test_loss': 0.0005772885711747689}
+Best loss: 0.0002428690898575432
+Epoch 51:
+Training summary: {'train_recon_loss': 0.0003287070384537044, 'train_loss': 0.0003287070384537044}
+Evaluation summary: {'test_recon_loss': 0.0002673009154655761, 'test_loss': 0.0002673009154655761}
+Best loss: 0.0002428690898575432
+Epoch 52:
+Training summary: {'train_recon_loss': 0.0002850518724027538, 'train_loss': 0.0002850518724027538}
+Evaluation summary: {'test_recon_loss': 0.0005513393025167068, 'test_loss': 0.0005513393025167068}
+Best loss: 0.0002428690898575432
+Epoch 53:
+Training summary: {'train_recon_loss': 0.00028368213826189054, 'train_loss': 0.00028368213826189054}
+Evaluation summary: {'test_recon_loss': 0.0002605307571127264, 'test_loss': 0.0002605307571127264}
+Best loss: 0.0002428690898575432
+Epoch 54:
+Training summary: {'train_recon_loss': 0.0005617956963574265, 'train_loss': 0.0005617956963574265}
+Evaluation summary: {'test_recon_loss': 0.001281601858334084, 'test_loss': 0.001281601858334084}
+Best loss: 0.0002428690898575432
+Epoch 55:
+Training summary: {'train_recon_loss': 0.00043849967413519365, 'train_loss': 0.00043849967413519365}
+Evaluation summary: {'test_recon_loss': 0.00027377289490983627, 'test_loss': 0.00027377289490983627}
+Best loss: 0.0002428690898575432
+Epoch 56:
+Training summary: {'train_recon_loss': 0.0002825709329841922, 'train_loss': 0.0002825709329841922}
+Evaluation summary: {'test_recon_loss': 0.0002680803962897489, 'test_loss': 0.0002680803962897489}
+Best loss: 0.0002428690898575432
+Epoch 57:
+Training summary: {'train_recon_loss': 0.0002798473250045597, 'train_loss': 0.0002798473250045597}
+Evaluation summary: {'test_recon_loss': 0.00027047358992088577, 'test_loss': 0.00027047358992088577}
+Best loss: 0.0002428690898575432
+Epoch 58:
+Training summary: {'train_recon_loss': 0.0002720333845755693, 'train_loss': 0.0002720333845755693}
+Evaluation summary: {'test_recon_loss': 0.0003094284417162105, 'test_loss': 0.0003094284417162105}
+Best loss: 0.0002428690898575432
+Epoch 59:
+Training summary: {'train_recon_loss': 0.0007831565844978607, 'train_loss': 0.0007831565844978607}
+Evaluation summary: {'test_recon_loss': 0.00040755800910269866, 'test_loss': 0.00040755800910269866}
+Best loss: 0.0002428690898575432
+Epoch 60:
+Training summary: {'train_recon_loss': 0.00033708612922337994, 'train_loss': 0.00033708612922337994}
+Evaluation summary: {'test_recon_loss': 0.0002719515976256497, 'test_loss': 0.0002719515976256497}
+Best loss: 0.0002428690898575432
+Epoch 61:
+Training summary: {'train_recon_loss': 0.00029141338085081104, 'train_loss': 0.00029141338085081104}
+Evaluation summary: {'test_recon_loss': 0.0002838467099731218, 'test_loss': 0.0002838467099731218}
+Best loss: 0.0002428690898575432
+Epoch 62:
+Training summary: {'train_recon_loss': 0.00027914888786181587, 'train_loss': 0.00027914888786181587}
+Evaluation summary: {'test_recon_loss': 0.0002592876240577416, 'test_loss': 0.0002592876240577416}
+Best loss: 0.0002428690898575432
+Epoch 63:
+Training summary: {'train_recon_loss': 0.000456476858455043, 'train_loss': 0.000456476858455043}
+Evaluation summary: {'test_recon_loss': 0.0027804323297366566, 'test_loss': 0.0027804323297366566}
+Best loss: 0.0002428690898575432
+Epoch 64:
+Training summary: {'train_recon_loss': 0.0006358960907504805, 'train_loss': 0.0006358960907504805}
+Evaluation summary: {'test_recon_loss': 0.00039348196847513315, 'test_loss': 0.00039348196847513315}
+Best loss: 0.0002428690898575432
+Epoch 65:
+Training summary: {'train_recon_loss': 0.0003211323813629474, 'train_loss': 0.0003211323813629474}
+Evaluation summary: {'test_recon_loss': 0.0002945981351254711, 'test_loss': 0.0002945981351254711}
+Best loss: 0.0002428690898575432
+Epoch 66:
+Training summary: {'train_recon_loss': 0.0002855864568568632, 'train_loss': 0.0002855864568568632}
+Evaluation summary: {'test_recon_loss': 0.00029940893027175137, 'test_loss': 0.00029940893027175137}
+Best loss: 0.0002428690898575432
+Epoch 67:
+Training summary: {'train_recon_loss': 0.0002756971801514326, 'train_loss': 0.0002756971801514326}
+Evaluation summary: {'test_recon_loss': 0.0002548859852555549, 'test_loss': 0.0002548859852555549}
+Best loss: 0.0002428690898575432
+Epoch 68:
+Training summary: {'train_recon_loss': 0.000532202796495105, 'train_loss': 0.000532202796495105}
+Evaluation summary: {'test_recon_loss': 0.0009006945251185466, 'test_loss': 0.0009006945251185466}
+Best loss: 0.0002428690898575432
+Epoch 69:
+Training summary: {'train_recon_loss': 0.00044336513640415, 'train_loss': 0.00044336513640415}
+Evaluation summary: {'test_recon_loss': 0.0002987223414881178, 'test_loss': 0.0002987223414881178}
+Best loss: 0.0002428690898575432
+Epoch 70:
+Training summary: {'train_recon_loss': 0.0002851655726611459, 'train_loss': 0.0002851655726611459}
+Evaluation summary: {'test_recon_loss': 0.00027507169178535073, 'test_loss': 0.00027507169178535073}
+Best loss: 0.0002428690898575432
+Epoch 71:
+Training summary: {'train_recon_loss': 0.00026794005842104425, 'train_loss': 0.00026794005842104425}
+Evaluation summary: {'test_recon_loss': 0.00034385447804522595, 'test_loss': 0.00034385447804522595}
+Best loss: 0.0002428690898575432
+Epoch 72:
+Training summary: {'train_recon_loss': 0.0002709203141331323, 'train_loss': 0.0002709203141331323}
+Evaluation summary: {'test_recon_loss': 0.0002357181745899425, 'test_loss': 0.0002357181745899425}
+Best loss: 0.0002357181745899425
+Epoch 73:
+Training summary: {'train_recon_loss': 0.0005840563276813889, 'train_loss': 0.0005840563276813889}
+Evaluation summary: {'test_recon_loss': 0.002031746273172254, 'test_loss': 0.002031746273172254}
+Best loss: 0.0002357181745899425
+Epoch 74:
+Training summary: {'train_recon_loss': 0.0005108511642336544, 'train_loss': 0.0005108511642336544}
+Evaluation summary: {'test_recon_loss': 0.0002905873429785939, 'test_loss': 0.0002905873429785939}
+Best loss: 0.0002357181745899425
+Epoch 75:
+Training summary: {'train_recon_loss': 0.0002880488353332606, 'train_loss': 0.0002880488353332606}
+Evaluation summary: {'test_recon_loss': 0.00029286051858768265, 'test_loss': 0.00029286051858768265}
+Best loss: 0.0002357181745899425
+Epoch 76:
+Training summary: {'train_recon_loss': 0.0002740503246589503, 'train_loss': 0.0002740503246589503}
+Evaluation summary: {'test_recon_loss': 0.00026359843049026527, 'test_loss': 0.00026359843049026527}
+Best loss: 0.0002357181745899425
+Epoch 77:
+Training summary: {'train_recon_loss': 0.00026950229918000127, 'train_loss': 0.00026950229918000127}
+Evaluation summary: {'test_recon_loss': 0.0002807451552952153, 'test_loss': 0.0002807451552952153}
+Best loss: 0.0002357181745899425
+Epoch 78:
+Training summary: {'train_recon_loss': 0.00026466369997794697, 'train_loss': 0.00026466369997794697}
+Evaluation summary: {'test_recon_loss': 0.00023261285441522186, 'test_loss': 0.00023261285441522186}
+Best loss: 0.00023261285441522186
+Epoch 79:
+Training summary: {'train_recon_loss': 0.0006573735304123749, 'train_loss': 0.0006573735304123749}
+Evaluation summary: {'test_recon_loss': 0.0004909858105833792, 'test_loss': 0.0004909858105833792}
+Best loss: 0.00023261285441522186
+Epoch 80:
+Training summary: {'train_recon_loss': 0.0003521054357458101, 'train_loss': 0.0003521054357458101}
+Evaluation summary: {'test_recon_loss': 0.0002859094677378953, 'test_loss': 0.0002859094677378953}
+Best loss: 0.00023261285441522186
+Epoch 81:
+Training summary: {'train_recon_loss': 0.0002793471423064545, 'train_loss': 0.0002793471423064545}
+Evaluation summary: {'test_recon_loss': 0.000253428579696165, 'test_loss': 0.000253428579696165}
+Best loss: 0.00023261285441522186
+Epoch 82:
+Training summary: {'train_recon_loss': 0.0004984976556880206, 'train_loss': 0.0004984976556880206}
+Evaluation summary: {'test_recon_loss': 0.0002958215959535737, 'test_loss': 0.0002958215959535737}
+Best loss: 0.00023261285441522186
+Epoch 83:
+Training summary: {'train_recon_loss': 0.0002737575249813084, 'train_loss': 0.0002737575249813084}
+Evaluation summary: {'test_recon_loss': 0.00024079395794783658, 'test_loss': 0.00024079395794783658}
+Best loss: 0.00023261285441522186
+Epoch 84:
+Training summary: {'train_recon_loss': 0.0002666696068814747, 'train_loss': 0.0002666696068814747}
+Evaluation summary: {'test_recon_loss': 0.000262676146737061, 'test_loss': 0.000262676146737061}
+Best loss: 0.00023261285441522186
+Epoch 85:
+Training summary: {'train_recon_loss': 0.00026883674589481054, 'train_loss': 0.00026883674589481054}
+Evaluation summary: {'test_recon_loss': 0.0002583517337430846, 'test_loss': 0.0002583517337430846}
+Best loss: 0.00023261285441522186
+Epoch 86:
+Training summary: {'train_recon_loss': 0.0002610010611765043, 'train_loss': 0.0002610010611765043}
+Evaluation summary: {'test_recon_loss': 0.0002468848498663686, 'test_loss': 0.0002468848498663686}
+Best loss: 0.00023261285441522186
+Epoch 87:
+Training summary: {'train_recon_loss': 0.0002595270308881896, 'train_loss': 0.0002595270308881896}
+Evaluation summary: {'test_recon_loss': 0.00024789877820546364, 'test_loss': 0.00024789877820546364}
+Best loss: 0.00023261285441522186
+Epoch 88:
+Training summary: {'train_recon_loss': 0.00026233165634733464, 'train_loss': 0.00026233165634733464}
+Evaluation summary: {'test_recon_loss': 0.00033201053182994433, 'test_loss': 0.00033201053182994433}
+Best loss: 0.00023261285441522186
+Epoch 89:
+Training summary: {'train_recon_loss': 0.0008393346015573733, 'train_loss': 0.0008393346015573733}
+Evaluation summary: {'test_recon_loss': 0.00039755545225618157, 'test_loss': 0.00039755545225618157}
+Best loss: 0.00023261285441522186
+Epoch 90:
+Training summary: {'train_recon_loss': 0.00032664083851753904, 'train_loss': 0.00032664083851753904}
+Evaluation summary: {'test_recon_loss': 0.0005009070827854762, 'test_loss': 0.0005009070827854762}
+Best loss: 0.00023261285441522186
+Epoch 91:
+Training summary: {'train_recon_loss': 0.00033936262045482625, 'train_loss': 0.00033936262045482625}
+Evaluation summary: {'test_recon_loss': 0.004621828939486763, 'test_loss': 0.004621828939486763}
+Best loss: 0.00023261285441522186
+Epoch 92:
+Training summary: {'train_recon_loss': 0.0005149242235810402, 'train_loss': 0.0005149242235810402}
+Evaluation summary: {'test_recon_loss': 0.00042207868859087024, 'test_loss': 0.00042207868859087024}
+Best loss: 0.00023261285441522186
+Epoch 93:
+Training summary: {'train_recon_loss': 0.0002795761616595335, 'train_loss': 0.0002795761616595335}
+Evaluation summary: {'test_recon_loss': 0.00026643946471305904, 'test_loss': 0.00026643946471305904}
+Best loss: 0.00023261285441522186
+Epoch 94:
+Training summary: {'train_recon_loss': 0.0002718766172555958, 'train_loss': 0.0002718766172555958}
+Evaluation summary: {'test_recon_loss': 0.00027607889165486146, 'test_loss': 0.00027607889165486146}
+Best loss: 0.00023261285441522186
+Epoch 95:
+Training summary: {'train_recon_loss': 0.0007262219399632974, 'train_loss': 0.0007262219399632974}
+Evaluation summary: {'test_recon_loss': 0.0005059057367691785, 'test_loss': 0.0005059057367691785}
+Best loss: 0.00023261285441522186
+Epoch 96:
+Training summary: {'train_recon_loss': 0.00036547486673914646, 'train_loss': 0.00036547486673914646}
+Evaluation summary: {'test_recon_loss': 0.0003853507918391602, 'test_loss': 0.0003853507918391602}
+Best loss: 0.00023261285441522186
+Epoch 97:
+Training summary: {'train_recon_loss': 0.0002861158225211058, 'train_loss': 0.0002861158225211058}
+Evaluation summary: {'test_recon_loss': 0.00030605754727850863, 'test_loss': 0.00030605754727850863}
+Best loss: 0.00023261285441522186
+Epoch 98:
+Training summary: {'train_recon_loss': 0.00027763196881144716, 'train_loss': 0.00027763196881144716}
+Evaluation summary: {'test_recon_loss': 0.00030736491238621743, 'test_loss': 0.00030736491238621743}
+Best loss: 0.00023261285441522186
+Epoch 99:
+Training summary: {'train_recon_loss': 0.00026799475585662525, 'train_loss': 0.00026799475585662525}
+Evaluation summary: {'test_recon_loss': 0.00025029727974335805, 'test_loss': 0.00025029727974335805}
+Best loss: 0.00023261285441522186
+Epoch 100:
+Training summary: {'train_recon_loss': 0.0005138029512061162, 'train_loss': 0.0005138029512061162}
+Evaluation summary: {'test_recon_loss': 0.0002668402329599699, 'test_loss': 0.0002668402329599699}
+Best loss: 0.00023261285441522186
+Epoch 101:
+Training summary: {'train_recon_loss': 0.0005154819098433277, 'train_loss': 0.0005154819098433277}
+Evaluation summary: {'test_recon_loss': 0.0008985661046047555, 'test_loss': 0.0008985661046047555}
+Best loss: 0.00023261285441522186
+Epoch 102:
+Training summary: {'train_recon_loss': 0.0003600634045013665, 'train_loss': 0.0003600634045013665}
+Evaluation summary: {'test_recon_loss': 0.00031517477673731074, 'test_loss': 0.00031517477673731074}
+Best loss: 0.00023261285441522186
+Epoch 103:
+Training summary: {'train_recon_loss': 0.0002775547861472487, 'train_loss': 0.0002775547861472487}
+Evaluation summary: {'test_recon_loss': 0.00029342212866017756, 'test_loss': 0.00029342212866017756}
+Best loss: 0.00023261285441522186
+Epoch 104:
+Training summary: {'train_recon_loss': 0.00026934758954197716, 'train_loss': 0.00026934758954197716}
+Evaluation summary: {'test_recon_loss': 0.00027980012572790505, 'test_loss': 0.00027980012572790505}
+Best loss: 0.00023261285441522186
+Epoch 105:
+Training summary: {'train_recon_loss': 0.0002733845780338259, 'train_loss': 0.0002733845780338259}
+Evaluation summary: {'test_recon_loss': 0.00024901677324447015, 'test_loss': 0.00024901677324447015}
+Best loss: 0.00023261285441522186
+Epoch 106:
+Training summary: {'train_recon_loss': 0.0008392600238916802, 'train_loss': 0.0008392600238916802}
+Evaluation summary: {'test_recon_loss': 0.0007330902187195698, 'test_loss': 0.0007330902187195698}
+Best loss: 0.00023261285441522186
+Epoch 107:
+Training summary: {'train_recon_loss': 0.0003642646391491834, 'train_loss': 0.0003642646391491834}
+Evaluation summary: {'test_recon_loss': 0.0003232249970114697, 'test_loss': 0.0003232249970114697}
+Best loss: 0.00023261285441522186
+Epoch 108:
+Training summary: {'train_recon_loss': 0.00027945617265985324, 'train_loss': 0.00027945617265985324}
+Evaluation summary: {'test_recon_loss': 0.000282768109938073, 'test_loss': 0.000282768109938073}
+Best loss: 0.00023261285441522186
+Epoch 109:
+Training summary: {'train_recon_loss': 0.0002784886496508077, 'train_loss': 0.0002784886496508077}
+Evaluation summary: {'test_recon_loss': 0.0003082435561114418, 'test_loss': 0.0003082435561114418}
+Best loss: 0.00023261285441522186
+Epoch 110:
+Training summary: {'train_recon_loss': 0.00027808266152568533, 'train_loss': 0.00027808266152568533}
+Evaluation summary: {'test_recon_loss': 0.00026258917976912355, 'test_loss': 0.00026258917976912355}
+Best loss: 0.00023261285441522186
+Epoch 111:
+Training summary: {'train_recon_loss': 0.00045227258384528867, 'train_loss': 0.00045227258384528867}
+Evaluation summary: {'test_recon_loss': 0.002494170083076664, 'test_loss': 0.002494170083076664}
+Best loss: 0.00023261285441522186
+Epoch 112:
+Training summary: {'train_recon_loss': 0.0007921183157248202, 'train_loss': 0.0007921183157248202}
+Evaluation summary: {'test_recon_loss': 0.000592868906971901, 'test_loss': 0.000592868906971901}
+Best loss: 0.00023261285441522186
+Epoch 113:
+Training summary: {'train_recon_loss': 0.00031689126454330726, 'train_loss': 0.00031689126454330726}
+Evaluation summary: {'test_recon_loss': 0.00027020544047518154, 'test_loss': 0.00027020544047518154}
+Best loss: 0.00023261285441522186
+Epoch 114:
+Training summary: {'train_recon_loss': 0.00028192117320626213, 'train_loss': 0.00028192117320626213}
+Evaluation summary: {'test_recon_loss': 0.000266000200059203, 'test_loss': 0.000266000200059203}
+Best loss: 0.00023261285441522186
+Epoch 115:
+Training summary: {'train_recon_loss': 0.00028063492000933134, 'train_loss': 0.00028063492000933134}
+Evaluation summary: {'test_recon_loss': 0.00026629186591180503, 'test_loss': 0.00026629186591180503}
+Best loss: 0.00023261285441522186
+Epoch 116:
+Training summary: {'train_recon_loss': 0.0006715072993904448, 'train_loss': 0.0006715072993904448}
+Evaluation summary: {'test_recon_loss': 0.0005681341175702053, 'test_loss': 0.0005681341175702053}
+Best loss: 0.00023261285441522186
+Epoch 117:
+Training summary: {'train_recon_loss': 0.0003358081353952954, 'train_loss': 0.0003358081353952954}
+Evaluation summary: {'test_recon_loss': 0.00026873697754788844, 'test_loss': 0.00026873697754788844}
+Best loss: 0.00023261285441522186
+Epoch 118:
+Training summary: {'train_recon_loss': 0.00028328891394041974, 'train_loss': 0.00028328891394041974}
+Evaluation summary: {'test_recon_loss': 0.00030281557904518345, 'test_loss': 0.00030281557904518345}
+Best loss: 0.00023261285441522186
+Epoch 119:
+Training summary: {'train_recon_loss': 0.0002791190469742826, 'train_loss': 0.0002791190469742826}
+Evaluation summary: {'test_recon_loss': 0.000261192387066268, 'test_loss': 0.000261192387066268}
+Best loss: 0.00023261285441522186
+Epoch 120:
+Training summary: {'train_recon_loss': 0.0006776400385418327, 'train_loss': 0.0006776400385418327}
+Evaluation summary: {'test_recon_loss': 0.0012619509276123513, 'test_loss': 0.0012619509276123513}
+Best loss: 0.00023261285441522186
+Epoch 121:
+Training summary: {'train_recon_loss': 0.0005301466967964826, 'train_loss': 0.0005301466967964826}
+Evaluation summary: {'test_recon_loss': 0.0003225731256330973, 'test_loss': 0.0003225731256330973}
+Best loss: 0.00023261285441522186
+Epoch 122:
+Training summary: {'train_recon_loss': 0.00030550569612734405, 'train_loss': 0.00030550569612734405}
+Evaluation summary: {'test_recon_loss': 0.00030383129517175034, 'test_loss': 0.00030383129517175034}
+Best loss: 0.00023261285441522186
+Epoch 123:
+Training summary: {'train_recon_loss': 0.00028823556563802163, 'train_loss': 0.00028823556563802163}
+Evaluation summary: {'test_recon_loss': 0.00024716554695912934, 'test_loss': 0.00024716554695912934}
+Best loss: 0.00023261285441522186
+Epoch 124:
+Training summary: {'train_recon_loss': 0.0002676737369044336, 'train_loss': 0.0002676737369044336}
+Evaluation summary: {'test_recon_loss': 0.00032315090102440496, 'test_loss': 0.00032315090102440496}
+Best loss: 0.00023261285441522186
+Epoch 125:
+Training summary: {'train_recon_loss': 0.0007473054897464243, 'train_loss': 0.0007473054897464243}
+Evaluation summary: {'test_recon_loss': 0.0004677981551982916, 'test_loss': 0.0004677981551982916}
+Best loss: 0.00023261285441522186
+Epoch 126:
+Training summary: {'train_recon_loss': 0.0003205956625593777, 'train_loss': 0.0003205956625593777}
+Evaluation summary: {'test_recon_loss': 0.00028307710546810323, 'test_loss': 0.00028307710546810323}
+Best loss: 0.00023261285441522186
+Epoch 127:
+Training summary: {'train_recon_loss': 0.0002897847835898036, 'train_loss': 0.0002897847835898036}
+Evaluation summary: {'test_recon_loss': 0.0003226768946529909, 'test_loss': 0.0003226768946529909}
+Best loss: 0.00023261285441522186
+Epoch 128:
+Training summary: {'train_recon_loss': 0.00027879934466189786, 'train_loss': 0.00027879934466189786}
+Evaluation summary: {'test_recon_loss': 0.0003785875724223061, 'test_loss': 0.0003785875724223061}
+Best loss: 0.00023261285441522186
+Epoch 129:
+Training summary: {'train_recon_loss': 0.0003062653037369362, 'train_loss': 0.0003062653037369362}
+Evaluation summary: {'test_recon_loss': 0.3715401974012645, 'test_loss': 0.3715401974012645}
+Best loss: 0.00023261285441522186
+Epoch 130:
+Training summary: {'train_recon_loss': 0.0008189680233520414, 'train_loss': 0.0008189680233520414}
+Evaluation summary: {'test_recon_loss': 0.00029412022850219154, 'test_loss': 0.00029412022850219154}
+Best loss: 0.00023261285441522186
+Epoch 131:
+Training summary: {'train_recon_loss': 0.00029003916659689396, 'train_loss': 0.00029003916659689396}
+Evaluation summary: {'test_recon_loss': 0.0002529497771556653, 'test_loss': 0.0002529497771556653}
+Best loss: 0.00023261285441522186
+Epoch 132:
+Training summary: {'train_recon_loss': 0.00027977652965416284, 'train_loss': 0.00027977652965416284}
+Evaluation summary: {'test_recon_loss': 0.0002544809002817191, 'test_loss': 0.0002544809002817191}
+Best loss: 0.00023261285441522186
+Epoch 133:
+Training summary: {'train_recon_loss': 0.0005341234429560057, 'train_loss': 0.0005341234429560057}
+Evaluation summary: {'test_recon_loss': 0.0002889556605132134, 'test_loss': 0.0002889556605132134}
+Best loss: 0.00023261285441522186
+Epoch 134:
+Training summary: {'train_recon_loss': 0.00028338081787225995, 'train_loss': 0.00028338081787225995}
+Evaluation summary: {'test_recon_loss': 0.00026520680211450885, 'test_loss': 0.00026520680211450885}
+Best loss: 0.00023261285441522186
+Epoch 135:
+Training summary: {'train_recon_loss': 0.00027470714442967537, 'train_loss': 0.00027470714442967537}
+Evaluation summary: {'test_recon_loss': 0.0002967009824707483, 'test_loss': 0.0002967009824707483}
+Best loss: 0.00023261285441522186
+Epoch 136:
+Training summary: {'train_recon_loss': 0.0002689475526102713, 'train_loss': 0.0002689475526102713}
+Evaluation summary: {'test_recon_loss': 0.000269216533596299, 'test_loss': 0.000269216533596299}
+Best loss: 0.00023261285441522186
+Epoch 137:
+Training summary: {'train_recon_loss': 0.0005835141908861174, 'train_loss': 0.0005835141908861174}
+Evaluation summary: {'test_recon_loss': 0.0005465076932037199, 'test_loss': 0.0005465076932037199}
+Best loss: 0.00023261285441522186
+Epoch 138:
+Training summary: {'train_recon_loss': 0.00032009913606853823, 'train_loss': 0.00032009913606853823}
+Evaluation summary: {'test_recon_loss': 0.000249546905255328, 'test_loss': 0.000249546905255328}
+Best loss: 0.00023261285441522186
+Epoch 139:
+Training summary: {'train_recon_loss': 0.00027517467877472164, 'train_loss': 0.00027517467877472164}
+Evaluation summary: {'test_recon_loss': 0.0002568926039538405, 'test_loss': 0.0002568926039538405}
+Best loss: 0.00023261285441522186
+Epoch 140:
+Training summary: {'train_recon_loss': 0.0004901956463361799, 'train_loss': 0.0004901956463361799}
+Evaluation summary: {'test_recon_loss': 0.00026571396184071184, 'test_loss': 0.00026571396184071184}
+Best loss: 0.00023261285441522186
+Epoch 141:
+Training summary: {'train_recon_loss': 0.000268455954745137, 'train_loss': 0.000268455954745137}
+Evaluation summary: {'test_recon_loss': 0.00024466992667072825, 'test_loss': 0.00024466992667072825}
+Best loss: 0.00023261285441522186
+Epoch 142:
+Training summary: {'train_recon_loss': 0.0004648097894697896, 'train_loss': 0.0004648097894697896}
+Evaluation summary: {'test_recon_loss': 0.0017593612698723607, 'test_loss': 0.0017593612698723607}
+Best loss: 0.00023261285441522186
+Epoch 143:
+Training summary: {'train_recon_loss': 0.0006097612332066438, 'train_loss': 0.0006097612332066438}
+Evaluation summary: {'test_recon_loss': 0.00032213099620080794, 'test_loss': 0.00032213099620080794}
+Best loss: 0.00023261285441522186
+Epoch 144:
+Training summary: {'train_recon_loss': 0.00028650778185435527, 'train_loss': 0.00028650778185435527}
+Evaluation summary: {'test_recon_loss': 0.00026487849501915714, 'test_loss': 0.00026487849501915714}
+Best loss: 0.00023261285441522186
+Epoch 145:
+Training summary: {'train_recon_loss': 0.0002725449528618363, 'train_loss': 0.0002725449528618363}
+Evaluation summary: {'test_recon_loss': 0.00026543645278959485, 'test_loss': 0.00026543645278959485}
+Best loss: 0.00023261285441522186
+Epoch 146:
+Training summary: {'train_recon_loss': 0.0007383100404977948, 'train_loss': 0.0007383100404977948}
+Evaluation summary: {'test_recon_loss': 0.000396785812416414, 'test_loss': 0.000396785812416414}
+Best loss: 0.00023261285441522186
+Epoch 147:
+Training summary: {'train_recon_loss': 0.0002940445010994179, 'train_loss': 0.0002940445010994179}
+Evaluation summary: {'test_recon_loss': 0.0002559472392391618, 'test_loss': 0.0002559472392391618}
+Best loss: 0.00023261285441522186
+Epoch 148:
+Training summary: {'train_recon_loss': 0.000636586605635177, 'train_loss': 0.000636586605635177}
+Evaluation summary: {'test_recon_loss': 0.0005334007914504452, 'test_loss': 0.0005334007914504452}
+Best loss: 0.00023261285441522186
+Epoch 149:
+Training summary: {'train_recon_loss': 0.00033332362517841187, 'train_loss': 0.00033332362517841187}
+Evaluation summary: {'test_recon_loss': 0.00028520905786498827, 'test_loss': 0.00028520905786498827}
+Best loss: 0.00023261285441522186
+Epoch 150:
+Training summary: {'train_recon_loss': 0.0002741112618323733, 'train_loss': 0.0002741112618323733}
+Evaluation summary: {'test_recon_loss': 0.0002495153101910617, 'test_loss': 0.0002495153101910617}
+Best loss: 0.00023261285441522186
+Epoch 151:
+Training summary: {'train_recon_loss': 0.00027070153768292833, 'train_loss': 0.00027070153768292833}
+Evaluation summary: {'test_recon_loss': 0.00025128878286781204, 'test_loss': 0.00025128878286781204}
+Best loss: 0.00023261285441522186
+Epoch 152:
+Training summary: {'train_recon_loss': 0.0004746728499229526, 'train_loss': 0.0004746728499229526}
+Evaluation summary: {'test_recon_loss': 0.0013917854890304236, 'test_loss': 0.0013917854890304236}
+Best loss: 0.00023261285441522186
+Epoch 153:
+Training summary: {'train_recon_loss': 0.0005223438427158282, 'train_loss': 0.0005223438427158282}
+Evaluation summary: {'test_recon_loss': 0.0002889190797760062, 'test_loss': 0.0002889190797760062}
+Best loss: 0.00023261285441522186
+Epoch 154:
+Training summary: {'train_recon_loss': 0.0002841537878937055, 'train_loss': 0.0002841537878937055}
+Evaluation summary: {'test_recon_loss': 0.0002565495131091144, 'test_loss': 0.0002565495131091144}
+Best loss: 0.00023261285441522186
+Epoch 155:
+Training summary: {'train_recon_loss': 0.0002678022101848935, 'train_loss': 0.0002678022101848935}
+Evaluation summary: {'test_recon_loss': 0.00025657080800331906, 'test_loss': 0.00025657080800331906}
+Best loss: 0.00023261285441522186
+Epoch 156:
+Training summary: {'train_recon_loss': 0.00026539389981230924, 'train_loss': 0.00026539389981230924}
+Evaluation summary: {'test_recon_loss': 0.00023814762729573009, 'test_loss': 0.00023814762729573009}
+Best loss: 0.00023261285441522186
+Epoch 157:
+Training summary: {'train_recon_loss': 0.0006282178913580433, 'train_loss': 0.0006282178913580433}
+Evaluation summary: {'test_recon_loss': 0.0007575282443164286, 'test_loss': 0.0007575282443164286}
+Best loss: 0.00023261285441522186
+Epoch 158:
+Training summary: {'train_recon_loss': 0.0003755091441270332, 'train_loss': 0.0003755091441270332}
+Evaluation summary: {'test_recon_loss': 0.00025993508944321427, 'test_loss': 0.00025993508944321427}
+Best loss: 0.00023261285441522186
+Epoch 159:
+Training summary: {'train_recon_loss': 0.0002803100148473404, 'train_loss': 0.0002803100148473404}
+Evaluation summary: {'test_recon_loss': 0.00026212825723434123, 'test_loss': 0.00026212825723434123}
+Best loss: 0.00023261285441522186
+Epoch 160:
+Training summary: {'train_recon_loss': 0.00027806647737920197, 'train_loss': 0.00027806647737920197}
+Evaluation summary: {'test_recon_loss': 0.00031380604722124446, 'test_loss': 0.00031380604722124446}
+Best loss: 0.00023261285441522186
+Epoch 161:
+Training summary: {'train_recon_loss': 0.0006359469181479139, 'train_loss': 0.0006359469181479139}
+Evaluation summary: {'test_recon_loss': 0.0007414202155649235, 'test_loss': 0.0007414202155649235}
+Best loss: 0.00023261285441522186
+Epoch 162:
+Training summary: {'train_recon_loss': 0.0004127713418775487, 'train_loss': 0.0004127713418775487}
+Evaluation summary: {'test_recon_loss': 0.0002927824714503454, 'test_loss': 0.0002927824714503454}
+Best loss: 0.00023261285441522186
+Epoch 163:
+Training summary: {'train_recon_loss': 0.00042153950846447963, 'train_loss': 0.00042153950846447963}
+Evaluation summary: {'test_recon_loss': 0.001669252253207724, 'test_loss': 0.001669252253207724}
+Best loss: 0.00023261285441522186
+Epoch 164:
+Training summary: {'train_recon_loss': 0.00048320796393666837, 'train_loss': 0.00048320796393666837}
+Evaluation summary: {'test_recon_loss': 0.00027427514683514104, 'test_loss': 0.00027427514683514104}
+Best loss: 0.00023261285441522186
+Epoch 165:
+Training summary: {'train_recon_loss': 0.0002865055308067619, 'train_loss': 0.0002865055308067619}
+Evaluation summary: {'test_recon_loss': 0.00028142134021285123, 'test_loss': 0.00028142134021285123}
+Best loss: 0.00023261285441522186
+Epoch 166:
+Training summary: {'train_recon_loss': 0.0002730690951855249, 'train_loss': 0.0002730690951855249}
+Evaluation summary: {'test_recon_loss': 0.0002599737049244133, 'test_loss': 0.0002599737049244133}
+Best loss: 0.00023261285441522186
+Epoch 167:
+Training summary: {'train_recon_loss': 0.00026701407130871765, 'train_loss': 0.00026701407130871765}
+Evaluation summary: {'test_recon_loss': 0.0003415440184700247, 'test_loss': 0.0003415440184700247}
+Best loss: 0.00023261285441522186
+Epoch 168:
+Training summary: {'train_recon_loss': 0.00041541624582366833, 'train_loss': 0.00041541624582366833}
+Evaluation summary: {'test_recon_loss': 0.0023463341540755018, 'test_loss': 0.0023463341540755018}
+Best loss: 0.00023261285441522186
+Epoch 169:
+Training summary: {'train_recon_loss': 0.000539892987282733, 'train_loss': 0.000539892987282733}
+Evaluation summary: {'test_recon_loss': 0.0002981464512666585, 'test_loss': 0.0002981464512666585}
+Best loss: 0.00023261285441522186
+Epoch 170:
+Training summary: {'train_recon_loss': 0.0006471869095381641, 'train_loss': 0.0006471869095381641}
+Evaluation summary: {'test_recon_loss': 0.0004999796831222172, 'test_loss': 0.0004999796831222172}
+Best loss: 0.00023261285441522186
+Epoch 171:
+Training summary: {'train_recon_loss': 0.0003615578339781117, 'train_loss': 0.0003615578339781117}
+Evaluation summary: {'test_recon_loss': 0.00028940474834288906, 'test_loss': 0.00028940474834288906}
+Best loss: 0.00023261285441522186
+Epoch 172:
+Training summary: {'train_recon_loss': 0.00028472944101493166, 'train_loss': 0.00028472944101493166}
+Evaluation summary: {'test_recon_loss': 0.0002883879480958294, 'test_loss': 0.0002883879480958294}
+Best loss: 0.00023261285441522186
+Epoch 173:
+Training summary: {'train_recon_loss': 0.0002788080980245586, 'train_loss': 0.0002788080980245586}
+Evaluation summary: {'test_recon_loss': 0.00030836440414065176, 'test_loss': 0.00030836440414065176}
+Best loss: 0.00023261285441522186
+Epoch 174:
+Training summary: {'train_recon_loss': 0.00027025055886672426, 'train_loss': 0.00027025055886672426}
+Evaluation summary: {'test_recon_loss': 0.0002975079315420974, 'test_loss': 0.0002975079315420974}
+Best loss: 0.00023261285441522186
+Epoch 175:
+Training summary: {'train_recon_loss': 0.00031200413120739364, 'train_loss': 0.00031200413120739364}
+Evaluation summary: {'test_recon_loss': 0.07182317697608154, 'test_loss': 0.07182317697608154}
+Best loss: 0.00023261285441522186
+Epoch 176:
+Training summary: {'train_recon_loss': 0.0006291156960383893, 'train_loss': 0.0006291156960383893}
+Evaluation summary: {'test_recon_loss': 0.00032152772442586733, 'test_loss': 0.00032152772442586733}
+Best loss: 0.00023261285441522186
+Epoch 177:
+Training summary: {'train_recon_loss': 0.00028986928545600036, 'train_loss': 0.00028986928545600036}
+Evaluation summary: {'test_recon_loss': 0.0002591097364201757, 'test_loss': 0.0002591097364201757}
+Best loss: 0.00023261285441522186
+Epoch 178:
+Training summary: {'train_recon_loss': 0.0004955856931167937, 'train_loss': 0.0004955856931167937}
+Evaluation summary: {'test_recon_loss': 0.0016693735640451236, 'test_loss': 0.0016693735640451236}
+Best loss: 0.00023261285441522186
+Epoch 179:
+generate_recon.py --datadir . --metafile /mountb/single_cell_flist/ch4_all.csv --save-dir /mountb/autoencoder/ch4 --latent-dims 2048 --ae-features --pretrained-file /mountb/autoencoder/ch4/models/best.pth
+Namespace(ae_features=True, batch_size=128, datadir='.', latent_dims=2048, metafile='/mountb/single_cell_flist/ch4_all.csv', pca_features=False, pretrained_file='/mountb/autoencoder/ch4/models/best.pth', save_dir='/mountb/autoencoder/ch4')
+Dataset length is 9068498
+AE46(
+  (encoder): Sequential(
+    (0): Conv2d(1, 46, kernel_size=(2, 2), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv2d(46, 92, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (3): BatchNorm2d(92, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv2d(92, 184, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (6): BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv2d(184, 368, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv2d(368, 368, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+    (12): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (fc1): Linear(in_features=1472, out_features=2048, bias=True)
+  (decoder): Sequential(
+    (0): ConvTranspose2d(368, 368, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(368, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): LeakyReLU(negative_slope=0.2, inplace=True)
+    (3): ConvTranspose2d(368, 184, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): LeakyReLU(negative_slope=0.2, inplace=True)
+    (6): ConvTranspose2d(184, 92, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (7): BatchNorm2d(92, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): LeakyReLU(negative_slope=0.2, inplace=True)
+    (9): ConvTranspose2d(92, 46, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): BatchNorm2d(46, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (11): LeakyReLU(negative_slope=0.2, inplace=True)
+    (12): ConvTranspose2d(46, 1, kernel_size=(2, 2), stride=(2, 2), padding=(1, 1), bias=False)
+    (13): Sigmoid()
+  )
+  (d1): Linear(in_features=2048, out_features=1472, bias=True)
+  (mseloss): MSELoss()
+)
+Training summary: {'train_recon_loss': 0.0006713689405260468, 'train_loss': 0.0006713689405260468}
+Evaluation summary: {'test_recon_loss': 0.00033522690524941324, 'test_loss': 0.00033522690524941324}
+Best loss: 0.00023261285441522186
+Epoch 180:
+Training summary: {'train_recon_loss': 0.0003174381105286027, 'train_loss': 0.0003174381105286027}
+Evaluation summary: {'test_recon_loss': 0.00029234502151026027, 'test_loss': 0.00029234502151026027}
+Best loss: 0.00023261285441522186
+Epoch 181:
